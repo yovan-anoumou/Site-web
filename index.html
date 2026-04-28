@@ -394,6 +394,153 @@
       }
     }
 
+    /* ── CONTACT FORM SECTION ───────────────────────────── */
+    .contact-home {
+      padding: 100px 6vw;
+      display: flex;
+      justify-content: center;
+    }
+
+    .contact-home-inner {
+      width: 100%;
+      max-width: 780px;
+    }
+
+    .contact-home-header {
+      margin-bottom: 56px;
+    }
+
+    .home-form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .home-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .home-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .home-form-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+    }
+
+    .home-form-input,
+    .home-form-textarea {
+      background: #111111;
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 4px;
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 0.95rem;
+      font-weight: 400;
+      padding: 16px 20px;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+
+    .home-form-input::placeholder,
+    .home-form-textarea::placeholder {
+      color: rgba(168,164,158,0.45);
+    }
+
+    .home-form-input:focus,
+    .home-form-textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
+    }
+
+    .home-form-input.error,
+    .home-form-textarea.error {
+      border-color: #c0392b;
+    }
+
+    .home-form-textarea {
+      resize: vertical;
+      min-height: 160px;
+      line-height: 1.6;
+    }
+
+    .home-form-error-msg {
+      font-size: 0.72rem;
+      color: #e74c3c;
+      margin-top: -6px;
+      display: none;
+    }
+
+    .home-form-group.has-error .home-form-error-msg {
+      display: block;
+    }
+
+    .home-confirmation {
+      display: none;
+      text-align: center;
+      padding: 64px 40px;
+      background: #111111;
+      border: 1px solid rgba(201,168,76,0.18);
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .home-confirmation::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .home-confirmation.visible { display: block; }
+
+    .home-confirmation-icon {
+      width: 56px;
+      height: 56px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+    }
+
+    .home-confirmation-icon svg {
+      width: 24px; height: 24px;
+      stroke: var(--gold); fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .home-confirmation-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .home-confirmation-text {
+      font-size: 0.95rem;
+      color: var(--white-dim);
+      line-height: 1.7;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
     @media (max-width: 600px) {
       .nav {
         padding: 0 5vw;
@@ -406,6 +553,19 @@
 
       .section {
         padding: 72px 5vw;
+      }
+
+      .contact-home {
+        padding: 72px 5vw;
+      }
+
+      .home-form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-gold-submit {
+        width: 100%;
+        text-align: center;
       }
 
       .footer {
@@ -493,11 +653,151 @@
     </div>
   </div>
 
+  <!-- CONTACT FORM -->
+  <section class="contact-home">
+    <div class="contact-home-inner">
+
+      <div class="contact-home-header">
+        <p class="section-label">Prise de contact</p>
+        <h2 class="section-title">Discutons de votre projet</h2>
+      </div>
+
+      <form class="home-form" id="homeContactForm" novalidate>
+
+        <div class="home-form-row">
+          <div class="home-form-group" id="hgroup-prenom">
+            <label class="home-form-label" for="h-prenom">Prenom</label>
+            <input class="home-form-input" type="text" id="h-prenom" name="prenom" placeholder="Jean" autocomplete="given-name" />
+            <span class="home-form-error-msg">Ce champ est obligatoire.</span>
+          </div>
+          <div class="home-form-group" id="hgroup-nom">
+            <label class="home-form-label" for="h-nom">Nom</label>
+            <input class="home-form-input" type="text" id="h-nom" name="nom" placeholder="Dupont" autocomplete="family-name" />
+            <span class="home-form-error-msg">Ce champ est obligatoire.</span>
+          </div>
+        </div>
+
+        <div class="home-form-group" id="hgroup-email">
+          <label class="home-form-label" for="h-email">Adresse email</label>
+          <input class="home-form-input" type="email" id="h-email" name="email" placeholder="jean.dupont@entreprise.com" autocomplete="email" />
+          <span class="home-form-error-msg" id="h-email-error-msg">Veuillez entrer une adresse email valide.</span>
+        </div>
+
+        <div class="home-form-group" id="hgroup-projet">
+          <label class="home-form-label" for="h-projet">Description du projet</label>
+          <textarea class="home-form-textarea" id="h-projet" name="projet" placeholder="Decrivez brievement votre activite, les taches que vous souhaitez automatiser, et vos objectifs..."></textarea>
+          <span class="home-form-error-msg">Ce champ est obligatoire.</span>
+        </div>
+
+        <button type="submit" class="btn-gold btn-gold-submit" id="homeSubmitBtn">Envoyer le message</button>
+
+      </form>
+
+      <div class="home-confirmation" id="homeConfirmation">
+        <div class="home-confirmation-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h3 class="home-confirmation-title">Message envoye</h3>
+        <p class="home-confirmation-text">Merci pour votre message. Nous avons bien recu votre demande et vous repondrons dans les 24 heures.</p>
+      </div>
+
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="footer">
     <span class="footer-logo">Areony</span>
     <span class="footer-copy">&copy; 2026 AREONY. Tous droits reserves.</span>
   </footer>
+
+  <script>
+    var FORMSPREE_HOME = 'https://formspree.io/f/xvzdeove';
+
+    var homeForm        = document.getElementById('homeContactForm');
+    var homeSubmitBtn   = document.getElementById('homeSubmitBtn');
+    var homeConfirmation = document.getElementById('homeConfirmation');
+
+    function hField(id) { return document.getElementById('h-' + id); }
+    function hGroup(id) { return document.getElementById('hgroup-' + id); }
+
+    function hValidateEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    }
+
+    function hClearErrors() {
+      ['prenom','nom','email','projet'].forEach(function(id) {
+        var g = hGroup(id); var f = hField(id);
+        if (g) g.classList.remove('has-error');
+        if (f) f.classList.remove('error');
+      });
+    }
+
+    function hShowError(id, msg) {
+      var g = hGroup(id); var f = hField(id);
+      if (g) g.classList.add('has-error');
+      if (f) f.classList.add('error');
+      if (msg) {
+        var el = document.getElementById('h-' + id + '-error-msg');
+        if (el) el.textContent = msg;
+      }
+    }
+
+    function hValidate() {
+      var valid = true;
+      if (!hField('prenom').value.trim()) { hShowError('prenom'); valid = false; }
+      if (!hField('nom').value.trim())    { hShowError('nom');    valid = false; }
+      var emailVal = hField('email').value.trim();
+      if (!emailVal || !hValidateEmail(emailVal)) {
+        hShowError('email', 'Veuillez entrer une adresse email valide.');
+        valid = false;
+      }
+      if (!hField('projet').value.trim()) { hShowError('projet'); valid = false; }
+      return valid;
+    }
+
+    homeForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      hClearErrors();
+      if (!hValidate()) return;
+
+      homeSubmitBtn.disabled = true;
+      homeSubmitBtn.textContent = 'Envoi en cours...';
+
+      fetch(FORMSPREE_HOME, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          prenom:  hField('prenom').value.trim(),
+          nom:     hField('nom').value.trim(),
+          email:   hField('email').value.trim(),
+          message: hField('projet').value.trim()
+        })
+      })
+      .then(function(res) {
+        if (res.ok) {
+          homeForm.style.display = 'none';
+          homeConfirmation.classList.add('visible');
+        } else {
+          return res.json().then(function(d) { throw new Error(d.error || 'Erreur serveur'); });
+        }
+      })
+      .catch(function(err) {
+        homeSubmitBtn.disabled = false;
+        homeSubmitBtn.textContent = 'Envoyer le message';
+        alert('Une erreur est survenue. Veuillez reessayer.');
+        console.error(err);
+      });
+    });
+
+    ['prenom','nom','email','projet'].forEach(function(id) {
+      var f = hField(id);
+      if (!f) return;
+      f.addEventListener('input', function() {
+        hGroup(id).classList.remove('has-error');
+        f.classList.remove('error');
+      });
+    });
+  </script>
 
 </body>
 </html>
