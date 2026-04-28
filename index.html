@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AREONY — Automatisation IA sur mesure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black:      #0A0A0A;
+      --black-card: #111111;
+      --black-mid:  #161616;
+      --gold:       #C9A84C;
+      --gold-light: #DFC06A;
+      --gold-dim:   #9A7A32;
+      --white:      #F0EDE8;
+      --white-dim:  #A8A49E;
+      --border:     rgba(201,168,76,0.18);
+      --font:       'Plus Jakarta Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAVBAR ─────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6vw;
+      height: 72px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: var(--white);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-cta {
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border: 1px solid var(--gold-dim);
+      padding: 9px 22px;
+      border-radius: 3px;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 6vw 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 860px;
+      position: relative;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 28px;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      font-weight: 400;
+      color: var(--white-dim);
+      max-width: 540px;
+      margin: 0 auto 44px;
+      line-height: 1.7;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 16px 38px;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--white-dim);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 44px;
+      background: linear-gradient(to bottom, var(--gold-dim), transparent);
+      animation: scrollPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 1; }
+    }
+
+    /* ── SERVICES ────────────────────────────────────────── */
+    .section {
+      padding: 100px 6vw;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto 72px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      color: var(--white);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--black-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 44px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(201,168,76,0.4);
+      transform: translateY(-4px);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-number {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--gold-dim);
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--white-dim);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .card-result {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      width: 100%;
+    }
+
+    .card-result span {
+      color: var(--white);
+      font-size: 0.85rem;
+    }
+
+    /* ── METRICS ─────────────────────────────────────────── */
+    .metrics {
+      background: var(--black-mid);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 90px 6vw;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .metric-item {
+      padding: 20px;
+    }
+
+    .metric-value {
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .metric-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--white-dim);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .metric-divider {
+      width: 1px;
+      background: var(--border);
+      align-self: center;
+      height: 80px;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    .footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 40px 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .footer-copy {
+      font-size: 0.76rem;
+      color: var(--white-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .metric-divider {
+        width: 80px;
+        height: 1px;
+        margin: 0 auto;
+      }
+
+      .metric-item {
+        padding: 40px 20px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav {
+        padding: 0 5vw;
+        height: 64px;
+      }
+
+      .nav-logo {
+        font-size: 1.1rem;
+      }
+
+      .section {
+        padding: 72px 5vw;
+      }
+
+      .footer {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Areony</a>
+    <a href="contact.html" class="nav-cta">Nous contacter</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="hero-label">Agence IA — Automatisation</span>
+      <h1 class="hero-title">
+        4H EN MOINS<br />PAR SEMAINE,<br /><span>CA VOUS TENTE ?</span>
+      </h1>
+      <p class="hero-sub">
+        Nous concevons des agents et des systemes d'automatisation sur mesure pour que vos equipes travaillent moins sur le repetitif et plus sur ce qui compte vraiment.
+      </p>
+      <a href="contact.html" class="btn-gold">Parlons de votre projet</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>Decouvrir</span>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-label">Ce que nous faisons</p>
+      <h2 class="section-title">Des solutions IA qui transforment votre facon de travailler</h2>
+    </div>
+    <div class="services-grid">
+
+      <div class="card">
+        <p class="card-number">01</p>
+        <h3 class="card-title">Agents IA sur mesure</h3>
+        <p class="card-desc">Nous deployons des agents intelligents qui executent vos taches repetitives en autonomie — traitement de donnees, reponses automatisees, suivi de leads — 24h/24, sans erreur.</p>
+        <div class="card-result"><span>Resultat :</span> jusqu'a 80% du temps operationnel recupere</div>
+      </div>
+
+      <div class="card">
+        <p class="card-number">02</p>
+        <h3 class="card-title">Automatisation de process</h3>
+        <p class="card-desc">Audit, cartographie et automatisation de vos workflows internes. Chaque processus manuel devient un systeme fluide, rapide et tracable integre a vos outils existants.</p>
+        <div class="card-result"><span>Resultat :</span> -15h de travail manuel par semaine</div>
+      </div>
+
+      <div class="card">
+        <p class="card-number">03</p>
+        <h3 class="card-title">Generation de leads</h3>
+        <p class="card-desc">Systemes d'acquisition automatises : scraping cible, enrichissement de contacts, sequences de nurturing IA. Un pipeline commercial qui tourne en continu sans effort humain.</p>
+        <div class="card-result"><span>Resultat :</span> +3x de contacts qualifies par mois</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <div class="metrics">
+    <div class="metrics-grid">
+      <div class="metric-item">
+        <div class="metric-value">+40%</div>
+        <div class="metric-label">de productivite</div>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric-item">
+        <div class="metric-value">15h</div>
+        <div class="metric-label">economisees par semaine</div>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric-item">
+        <div class="metric-value">24/7</div>
+        <div class="metric-label">disponibilite</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer-logo">Areony</span>
+    <span class="footer-copy">&copy; 2026 AREONY. Tous droits reserves.</span>
+  </footer>
+
+</body>
+</html>

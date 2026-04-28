@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — AREONY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black:      #0A0A0A;
+      --black-card: #111111;
+      --black-mid:  #161616;
+      --gold:       #C9A84C;
+      --gold-light: #DFC06A;
+      --gold-dim:   #9A7A32;
+      --white:      #F0EDE8;
+      --white-dim:  #A8A49E;
+      --border:     rgba(201,168,76,0.18);
+      --border-input: rgba(201,168,76,0.25);
+      --font:       'Plus Jakarta Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAVBAR ─────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6vw;
+      height: 72px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: var(--white);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-cta {
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border: 1px solid var(--gold-dim);
+      padding: 9px 22px;
+      border-radius: 3px;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* ── CONTACT SECTION ─────────────────────────────────── */
+    .contact-section {
+      flex: 1;
+      padding: 140px 6vw 100px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .contact-container {
+      width: 100%;
+      max-width: 780px;
+    }
+
+    .contact-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .contact-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .contact-sub {
+      font-size: 0.95rem;
+      color: var(--white-dim);
+      margin-bottom: 60px;
+      max-width: 440px;
+      line-height: 1.7;
+    }
+
+    /* ── FORM ────────────────────────────────────────────── */
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white-dim);
+    }
+
+    .form-input,
+    .form-textarea {
+      background: var(--black-card);
+      border: 1px solid var(--border-input);
+      border-radius: 4px;
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 0.95rem;
+      font-weight: 400;
+      padding: 16px 20px;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: rgba(168,164,158,0.45);
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
+    }
+
+    .form-input.error,
+    .form-textarea.error {
+      border-color: #c0392b;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 160px;
+      line-height: 1.6;
+    }
+
+    .form-error-msg {
+      font-size: 0.72rem;
+      color: #e74c3c;
+      margin-top: -6px;
+      display: none;
+    }
+
+    .form-group.has-error .form-error-msg {
+      display: block;
+    }
+
+    .btn-submit {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 18px 44px;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
+      align-self: flex-start;
+      position: relative;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* ── CONFIRMATION ────────────────────────────────────── */
+    .confirmation {
+      display: none;
+      text-align: center;
+      padding: 64px 40px;
+      background: var(--black-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .confirmation::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .confirmation.visible {
+      display: block;
+    }
+
+    .confirmation-icon {
+      width: 56px;
+      height: 56px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+    }
+
+    .confirmation-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .confirmation-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .confirmation-text {
+      font-size: 0.95rem;
+      color: var(--white-dim);
+      line-height: 1.7;
+      max-width: 380px;
+      margin: 0 auto 36px;
+    }
+
+    .confirmation-link {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold-dim);
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+
+    .confirmation-link:hover {
+      color: var(--gold-light);
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    .footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 40px 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .footer-copy {
+      font-size: 0.76rem;
+      color: var(--white-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        padding: 0 5vw;
+        height: 64px;
+      }
+
+      .nav-logo {
+        font-size: 1.1rem;
+      }
+
+      .contact-section {
+        padding: 110px 5vw 80px;
+      }
+
+      .btn-submit {
+        width: 100%;
+        text-align: center;
+      }
+
+      .footer {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Areony</a>
+    <a href="contact.html" class="nav-cta">Nous contacter</a>
+  </nav>
+
+  <!-- CONTACT SECTION -->
+  <main class="contact-section">
+    <div class="contact-container">
+
+      <p class="contact-label">Prise de contact</p>
+      <h1 class="contact-title">Discutons de votre projet</h1>
+      <p class="contact-sub">Decrivez-nous votre situation et nous vous repondrons dans les 24 heures avec une analyse personnalisee.</p>
+
+      <!-- FORM -->
+      <form class="form" id="contactForm" novalidate>
+
+        <div class="form-row">
+          <div class="form-group" id="group-prenom">
+            <label class="form-label" for="prenom">Prenom</label>
+            <input class="form-input" type="text" id="prenom" name="prenom" placeholder="Jean" autocomplete="given-name" />
+            <span class="form-error-msg">Ce champ est obligatoire.</span>
+          </div>
+          <div class="form-group" id="group-nom">
+            <label class="form-label" for="nom">Nom</label>
+            <input class="form-input" type="text" id="nom" name="nom" placeholder="Dupont" autocomplete="family-name" />
+            <span class="form-error-msg">Ce champ est obligatoire.</span>
+          </div>
+        </div>
+
+        <div class="form-group" id="group-email">
+          <label class="form-label" for="email">Adresse email</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="jean.dupont@entreprise.com" autocomplete="email" />
+          <span class="form-error-msg" id="email-error-msg">Veuillez entrer une adresse email valide.</span>
+        </div>
+
+        <div class="form-group" id="group-projet">
+          <label class="form-label" for="projet">Description du projet</label>
+          <textarea class="form-textarea" id="projet" name="projet" placeholder="Decrivez brievement votre activite, les taches que vous souhaitez automatiser, et vos objectifs..."></textarea>
+          <span class="form-error-msg">Ce champ est obligatoire.</span>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Envoyer le message</button>
+
+      </form>
+
+      <!-- CONFIRMATION -->
+      <div class="confirmation" id="confirmation">
+        <div class="confirmation-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h2 class="confirmation-title">Message envoye</h2>
+        <p class="confirmation-text">
+          Merci pour votre message. Nous avons bien recu votre demande et vous repondrons dans les 24 heures.
+        </p>
+        <a href="index.html" class="confirmation-link">Retour a l'accueil</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer-logo">Areony</span>
+    <span class="footer-copy">&copy; 2026 AREONY. Tous droits reserves.</span>
+  </footer>
+
+  <!--
+    CONFIGURATION FORMSPREE
+    1. Creez un compte sur https://formspree.io
+    2. Creez un nouveau formulaire avec l'email yovan.anoumou@areony.net
+    3. Remplacez YOUR_FORM_ID ci-dessous par l'identifiant fourni
+  -->
+  <script>
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+    const form        = document.getElementById('contactForm');
+    const submitBtn   = document.getElementById('submitBtn');
+    const confirmation = document.getElementById('confirmation');
+
+    function getField(id)  { return document.getElementById(id); }
+    function getGroup(id)  { return document.getElementById('group-' + id); }
+
+    function validateEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    }
+
+    function clearErrors() {
+      ['prenom','nom','email','projet'].forEach(function(id) {
+        var g = getGroup(id);
+        var f = getField(id);
+        if (g) g.classList.remove('has-error');
+        if (f) f.classList.remove('error');
+      });
+    }
+
+    function showError(id, customMsg) {
+      var g = getGroup(id);
+      var f = getField(id);
+      if (g) g.classList.add('has-error');
+      if (f) f.classList.add('error');
+      if (customMsg) {
+        var msgEl = document.getElementById(id + '-error-msg');
+        if (msgEl) msgEl.textContent = customMsg;
+      }
+    }
+
+    function validate() {
+      var valid = true;
+
+      if (!getField('prenom').value.trim()) {
+        showError('prenom');
+        valid = false;
+      }
+      if (!getField('nom').value.trim()) {
+        showError('nom');
+        valid = false;
+      }
+      var emailVal = getField('email').value.trim();
+      if (!emailVal || !validateEmail(emailVal)) {
+        showError('email', 'Veuillez entrer une adresse email valide.');
+        valid = false;
+      }
+      if (!getField('projet').value.trim()) {
+        showError('projet');
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      clearErrors();
+
+      if (!validate()) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi en cours...';
+
+      var payload = {
+        prenom:  getField('prenom').value.trim(),
+        nom:     getField('nom').value.trim(),
+        email:   getField('email').value.trim(),
+        message: getField('projet').value.trim()
+      };
+
+      fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res) {
+        if (res.ok) {
+          form.style.display = 'none';
+          confirmation.classList.add('visible');
+        } else {
+          return res.json().then(function(data) {
+            throw new Error(data.error || 'Erreur serveur');
+          });
+        }
+      })
+      .catch(function(err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Envoyer le message';
+        alert('Une erreur est survenue lors de l\'envoi. Veuillez reessayer ou contacter directement yovan.anoumou@areony.net');
+        console.error(err);
+      });
+    });
+
+    /* Remove error state on input */
+    ['prenom','nom','email','projet'].forEach(function(id) {
+      var f = getField(id);
+      if (!f) return;
+      f.addEventListener('input', function() {
+        var g = getGroup(id);
+        if (g) g.classList.remove('has-error');
+        f.classList.remove('error');
+      });
+    });
+  </script>
+
+</body>
+</html>
