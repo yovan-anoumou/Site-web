@@ -3,801 +3,329 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AREONY — Automatisation IA sur mesure</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --black:      #0A0A0A;
-      --black-card: #111111;
-      --black-mid:  #161616;
-      --gold:       #C9A84C;
-      --gold-light: #DFC06A;
-      --gold-dim:   #9A7A32;
-      --white:      #F0EDE8;
-      --white-dim:  #A8A49E;
-      --border:     rgba(201,168,76,0.18);
-      --font:       'Plus Jakarta Sans', sans-serif;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background-color: var(--black);
-      color: var(--white);
-      font-family: var(--font);
-      font-size: 16px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── NAVBAR ─────────────────────────────────────────── */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 6vw;
-      height: 72px;
-      background: rgba(10,10,10,0.92);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      color: var(--white);
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
-    .nav-cta {
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      border: 1px solid var(--gold-dim);
-      padding: 9px 22px;
-      border-radius: 3px;
-      transition: background 0.25s, color 0.25s;
-    }
-
-    .nav-cta:hover {
-      background: var(--gold);
-      color: var(--black);
-    }
-
-    /* ── HERO ────────────────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 6vw 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      max-width: 860px;
-      position: relative;
-    }
-
-    .hero-label {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 28px;
-      padding: 6px 16px;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-    }
-
-    .hero-title {
-      font-size: clamp(2.4rem, 6vw, 4.8rem);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      color: var(--white);
-      margin-bottom: 28px;
-    }
-
-    .hero-title span {
-      color: var(--gold);
-    }
-
-    .hero-sub {
-      font-size: clamp(1rem, 1.8vw, 1.2rem);
-      font-weight: 400;
-      color: var(--white-dim);
-      max-width: 540px;
-      margin: 0 auto 44px;
-      line-height: 1.7;
-    }
-
-    .btn-gold {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--black);
-      font-family: var(--font);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 16px 38px;
-      border-radius: 3px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.25s, transform 0.2s;
-    }
-
-    .btn-gold:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--white-dim);
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .hero-scroll-line {
-      width: 1px;
-      height: 44px;
-      background: linear-gradient(to bottom, var(--gold-dim), transparent);
-      animation: scrollPulse 1.8s ease-in-out infinite;
-    }
-
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; }
-      50%       { opacity: 1; }
-    }
-
-    /* ── SERVICES ────────────────────────────────────────── */
-    .section {
-      padding: 100px 6vw;
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 620px;
-      margin: 0 auto 72px;
-    }
-
-    .section-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.015em;
-      color: var(--white);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .card {
-      background: var(--black-card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 44px 36px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .card:hover {
-      border-color: rgba(201,168,76,0.4);
-      transform: translateY(-4px);
-    }
-
-    .card:hover::before {
-      opacity: 1;
-    }
-
-    .card-number {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      color: var(--gold-dim);
-      margin-bottom: 20px;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--gold);
-      margin-bottom: 16px;
-      line-height: 1.3;
-    }
-
-    .card-desc {
-      font-size: 0.9rem;
-      color: var(--white-dim);
-      line-height: 1.75;
-      margin-bottom: 28px;
-    }
-
-    .card-result {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border-top: 1px solid var(--border);
-      padding-top: 20px;
-      width: 100%;
-    }
-
-    .card-result span {
-      color: var(--white);
-      font-size: 0.85rem;
-    }
-
-    /* ── METRICS ─────────────────────────────────────────── */
-    .metrics {
-      background: var(--black-mid);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 90px 6vw;
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      max-width: 1000px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .metric-item {
-      padding: 20px;
-    }
-
-    .metric-value {
-      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
-      font-weight: 800;
-      color: var(--gold);
-      letter-spacing: -0.03em;
-      line-height: 1;
-      margin-bottom: 14px;
-    }
-
-    .metric-label {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--white-dim);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .metric-divider {
-      width: 1px;
-      background: var(--border);
-      align-self: center;
-      height: 80px;
-    }
-
-    /* ── FOOTER ──────────────────────────────────────────── */
-    .footer {
-      background: var(--black);
-      border-top: 1px solid var(--border);
-      padding: 40px 6vw;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .footer-logo {
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: 0.2em;
-      color: var(--white);
-      text-transform: uppercase;
-    }
-
-    .footer-copy {
-      font-size: 0.76rem;
-      color: var(--white-dim);
-      letter-spacing: 0.04em;
-    }
-
-    /* ── RESPONSIVE ──────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .services-grid {
-        grid-template-columns: 1fr;
-        max-width: 520px;
-      }
-
-      .metrics-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .metric-divider {
-        width: 80px;
-        height: 1px;
-        margin: 0 auto;
-      }
-
-      .metric-item {
-        padding: 40px 20px;
-      }
-    }
-
-    /* ── CONTACT FORM SECTION ───────────────────────────── */
-    .contact-home {
-      padding: 100px 6vw;
-      display: flex;
-      justify-content: center;
-    }
-
-    .contact-home-inner {
-      width: 100%;
-      max-width: 780px;
-    }
-
-    .contact-home-header {
-      margin-bottom: 56px;
-    }
-
-    .home-form {
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-
-    .home-form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .home-form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .home-form-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-    }
-
-    .home-form-input,
-    .home-form-textarea {
-      background: #111111;
-      border: 1px solid rgba(201,168,76,0.25);
-      border-radius: 4px;
-      color: var(--white);
-      font-family: var(--font);
-      font-size: 0.95rem;
-      font-weight: 400;
-      padding: 16px 20px;
-      outline: none;
-      transition: border-color 0.25s, box-shadow 0.25s;
-      width: 100%;
-      -webkit-appearance: none;
-    }
-
-    .home-form-input::placeholder,
-    .home-form-textarea::placeholder {
-      color: rgba(168,164,158,0.45);
-    }
-
-    .home-form-input:focus,
-    .home-form-textarea:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
-    }
-
-    .home-form-input.error,
-    .home-form-textarea.error {
-      border-color: #c0392b;
-    }
-
-    .home-form-textarea {
-      resize: vertical;
-      min-height: 160px;
-      line-height: 1.6;
-    }
-
-    .home-form-error-msg {
-      font-size: 0.72rem;
-      color: #e74c3c;
-      margin-top: -6px;
-      display: none;
-    }
-
-    .home-form-group.has-error .home-form-error-msg {
-      display: block;
-    }
-
-    .home-confirmation {
-      display: none;
-      text-align: center;
-      padding: 64px 40px;
-      background: #111111;
-      border: 1px solid rgba(201,168,76,0.18);
-      border-radius: 6px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .home-confirmation::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-    }
-
-    .home-confirmation.visible { display: block; }
-
-    .home-confirmation-icon {
-      width: 56px;
-      height: 56px;
-      border: 2px solid var(--gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 28px;
-    }
-
-    .home-confirmation-icon svg {
-      width: 24px; height: 24px;
-      stroke: var(--gold); fill: none;
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .home-confirmation-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 14px;
-      letter-spacing: -0.01em;
-    }
-
-    .home-confirmation-text {
-      font-size: 0.95rem;
-      color: var(--white-dim);
-      line-height: 1.7;
-      max-width: 380px;
-      margin: 0 auto;
-    }
-
-    @media (max-width: 600px) {
-      .nav {
-        padding: 0 5vw;
-        height: 64px;
-      }
-
-      .nav-logo {
-        font-size: 1.1rem;
-      }
-
-      .section {
-        padding: 72px 5vw;
-      }
-
-      .contact-home {
-        padding: 72px 5vw;
-      }
-
-      .home-form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .btn-gold-submit {
-        width: 100%;
-        text-align: center;
-      }
-
-      .footer {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-  </style>
+  <meta name="description" content="Salon de l'Union — Premier salon mariage & PACS du bassin lensois. 14, 15 et 16 février 2027 à la Salle Bertinchamps, Lens (62)." />
+  <title>Salon de l'Union — Premier salon mariage & PACS de Lens</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="nav">
-    <a href="index.html" class="nav-logo">Areony</a>
-    <a href="contact.html" class="nav-cta">Nous contacter</a>
-  </nav>
+<!-- ── Navigation ──────────────────────────────────────────── -->
+<nav class="nav transparent" aria-label="Navigation principale">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="images/logo.png" alt="Salon de l'Union" />
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="exposants.html">Exposants</a></li>
+      <li><a href="sponsors.html">Partenaires</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="billetterie.html" class="nav-cta">Billetterie</a>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <span class="hero-label">Agence IA — Automatisation</span>
-      <h1 class="hero-title">
-        4H EN MOINS<br />PAR SEMAINE,<br /><span>CA VOUS TENTE ?</span>
-      </h1>
-      <p class="hero-sub">
-        Nous concevons des agents et des systemes d'automatisation sur mesure pour que vos equipes travaillent moins sur le repetitif et plus sur ce qui compte vraiment.
-      </p>
-      <a href="contact.html" class="btn-gold">Parlons de votre projet</a>
+<div class="mobile-menu" role="dialog" aria-label="Menu mobile">
+  <a href="index.html">Accueil</a>
+  <a href="programme.html">Programme</a>
+  <a href="exposants.html">Exposants</a>
+  <a href="sponsors.html">Partenaires</a>
+  <a href="contact.html">Contact</a>
+  <a href="billetterie.html" class="btn btn-primary btn-sm">Billetterie</a>
+</div>
+
+<!-- ── Hero ────────────────────────────────────────────────── -->
+<section class="hero" aria-label="Visuel principal">
+  <div class="hero-bg" role="img" aria-label="Couple de mariés élégants"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Votre union est notre passion</span>
+    <h1 class="hero-title">Salon de<br /><em>l'Union</em></h1>
+    <div class="hero-meta">
+      <span>14 · 15 · 16 Février 2027</span>
+      <span class="hero-meta-dot"></span>
+      <span>Salle Bertinchamps · Lens</span>
+      <span class="hero-meta-dot"></span>
+      <span>60–80 Exposants</span>
     </div>
-    <div class="hero-scroll">
-      <div class="hero-scroll-line"></div>
-      <span>Decouvrir</span>
+    <div class="hero-ctas">
+      <a href="billetterie.html" class="btn btn-primary btn-lg">Réserver ma place — 4 €</a>
+      <a href="billetterie.html#vip" class="btn btn-outline btn-lg">Pass VIP — 15 €</a>
     </div>
-  </section>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+    <span>Découvrir</span>
+  </div>
+</section>
 
-  <!-- SERVICES -->
-  <section class="section">
-    <div class="section-header">
-      <p class="section-label">Ce que nous faisons</p>
-      <h2 class="section-title">Des solutions IA qui transforment votre facon de travailler</h2>
+<!-- ── Countdown ───────────────────────────────────────────── -->
+<div class="countdown-bar" role="timer" aria-live="polite">
+  <div class="countdown-inner container">
+    <span class="countdown-label">Ouverture dans</span>
+    <div class="countdown-units">
+      <div class="countdown-unit">
+        <span class="countdown-number" id="cd-jours">000</span>
+        <span class="countdown-name">Jours</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-number" id="cd-heures">00</span>
+        <span class="countdown-name">Heures</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-number" id="cd-minutes">00</span>
+        <span class="countdown-name">Minutes</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-number" id="cd-secondes">00</span>
+        <span class="countdown-name">Secondes</span>
+      </div>
     </div>
-    <div class="services-grid">
+    <a href="billetterie.html" class="btn btn-primary btn-sm">Réserver</a>
+  </div>
+</div>
 
-      <div class="card">
-        <p class="card-number">01</p>
-        <h3 class="card-title">Agents IA sur mesure</h3>
-        <p class="card-desc">Nous deployons des agents intelligents qui executent vos taches repetitives en autonomie — traitement de donnees, reponses automatisees, suivi de leads — 24h/24, sans erreur.</p>
-        <div class="card-result"><span>Resultat :</span> jusqu'a 80% du temps operationnel recupere</div>
+<!-- ── L'Événement ─────────────────────────────────────────── -->
+<section class="section" aria-labelledby="event-heading">
+  <div class="container">
+    <div class="event-grid">
+      <div class="event-image reveal">
+        <img src="images/couple.jpg" alt="Couple élégant — Salon de l'Union" loading="lazy" />
+        <div class="event-image-badge">
+          <strong>1<sup>er</sup></strong>
+          <span>Salon Mariage &amp; PACS</span>
+          <span>du Bassin Lensois</span>
+        </div>
       </div>
-
-      <div class="card">
-        <p class="card-number">02</p>
-        <h3 class="card-title">Automatisation de process</h3>
-        <p class="card-desc">Audit, cartographie et automatisation de vos workflows internes. Chaque processus manuel devient un systeme fluide, rapide et tracable integre a vos outils existants.</p>
-        <div class="card-result"><span>Resultat :</span> -15h de travail manuel par semaine</div>
-      </div>
-
-      <div class="card">
-        <p class="card-number">03</p>
-        <h3 class="card-title">Generation de leads</h3>
-        <p class="card-desc">Systemes d'acquisition automatises : scraping cible, enrichissement de contacts, sequences de nurturing IA. Un pipeline commercial qui tourne en continu sans effort humain.</p>
-        <div class="card-result"><span>Resultat :</span> +3x de contacts qualifies par mois</div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- METRICS -->
-  <div class="metrics">
-    <div class="metrics-grid">
-      <div class="metric-item">
-        <div class="metric-value">+40%</div>
-        <div class="metric-label">de productivite</div>
-      </div>
-      <div class="metric-divider"></div>
-      <div class="metric-item">
-        <div class="metric-value">15h</div>
-        <div class="metric-label">economisees par semaine</div>
-      </div>
-      <div class="metric-divider"></div>
-      <div class="metric-item">
-        <div class="metric-value">24/7</div>
-        <div class="metric-label">disponibilite</div>
+      <div>
+        <span class="section-label reveal">L'Événement</span>
+        <h2 id="event-heading" class="section-title reveal reveal-delay-1">
+          Une célébration de<br /><em style="font-style:italic;color:var(--gold)">toutes les unions</em>
+        </h2>
+        <div class="divider-gold reveal reveal-delay-2"><span></span></div>
+        <p class="reveal reveal-delay-2">
+          Pour la première fois dans le bassin lensois, un salon dédié exclusivement au mariage et au PACS réunit en un seul lieu tout ce dont vous avez besoin pour concrétiser votre projet de vie. Pensé pour tous les couples, toutes les cultures, toutes les unions.
+        </p>
+        <p style="margin-top:16px;" class="reveal reveal-delay-3">
+          Profitez d'un week-end exceptionnel coïncidant avec la Saint-Valentin — le cadre parfait pour rencontrer 60 à 80 exposants sélectionnés et bénéficier d'un accompagnement 360°.
+        </p>
+        <div class="event-stats reveal reveal-delay-3">
+          <div class="event-stat">
+            <div class="event-stat-number">800+</div>
+            <div class="event-stat-label">Visiteurs attendus</div>
+          </div>
+          <div class="event-stat">
+            <div class="event-stat-number">60–80</div>
+            <div class="event-stat-label">Exposants sélectionnés</div>
+          </div>
+          <div class="event-stat">
+            <div class="event-stat-number">14+</div>
+            <div class="event-stat-label">Catégories de services</div>
+          </div>
+          <div class="event-stat">
+            <div class="event-stat-number">3</div>
+            <div class="event-stat-label">Jours d'événement</div>
+          </div>
+        </div>
+        <div style="margin-top:32px;" class="reveal reveal-delay-4">
+          <a href="programme.html" class="btn btn-outline-dark">Voir le programme</a>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- CONTACT FORM -->
-  <section class="contact-home">
-    <div class="contact-home-inner">
-
-      <div class="contact-home-header">
-        <p class="section-label">Prise de contact</p>
-        <h2 class="section-title">Discutons de votre projet</h2>
-      </div>
-
-      <form class="home-form" id="homeContactForm" novalidate>
-
-        <div class="home-form-row">
-          <div class="home-form-group" id="hgroup-prenom">
-            <label class="home-form-label" for="h-prenom">Prenom</label>
-            <input class="home-form-input" type="text" id="h-prenom" name="prenom" placeholder="Jean" autocomplete="given-name" />
-            <span class="home-form-error-msg">Ce champ est obligatoire.</span>
-          </div>
-          <div class="home-form-group" id="hgroup-nom">
-            <label class="home-form-label" for="h-nom">Nom</label>
-            <input class="home-form-input" type="text" id="h-nom" name="nom" placeholder="Dupont" autocomplete="family-name" />
-            <span class="home-form-error-msg">Ce champ est obligatoire.</span>
-          </div>
-        </div>
-
-        <div class="home-form-group" id="hgroup-email">
-          <label class="home-form-label" for="h-email">Adresse email</label>
-          <input class="home-form-input" type="email" id="h-email" name="email" placeholder="jean.dupont@entreprise.com" autocomplete="email" />
-          <span class="home-form-error-msg" id="h-email-error-msg">Veuillez entrer une adresse email valide.</span>
-        </div>
-
-        <div class="home-form-group" id="hgroup-projet">
-          <label class="home-form-label" for="h-projet">Description du projet</label>
-          <textarea class="home-form-textarea" id="h-projet" name="projet" placeholder="Decrivez brievement votre activite, les taches que vous souhaitez automatiser, et vos objectifs..."></textarea>
-          <span class="home-form-error-msg">Ce champ est obligatoire.</span>
-        </div>
-
-        <button type="submit" class="btn-gold btn-gold-submit" id="homeSubmitBtn">Envoyer le message</button>
-
-      </form>
-
-      <div class="home-confirmation" id="homeConfirmation">
-        <div class="home-confirmation-icon">
-          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        </div>
-        <h3 class="home-confirmation-title">Message envoye</h3>
-        <p class="home-confirmation-text">Merci pour votre message. Nous avons bien recu votre demande et vous repondrons dans les 24 heures.</p>
-      </div>
-
+<!-- ── Pourquoi venir ───────────────────────────────────────── -->
+<section class="section" style="background:var(--cream-dark);" aria-labelledby="pourquoi-heading">
+  <div class="container">
+    <div class="text-center">
+      <span class="section-label reveal">Pourquoi venir ?</span>
+      <h2 id="pourquoi-heading" class="section-title reveal reveal-delay-1">Trois bonnes raisons<br />de nous rejoindre</h2>
+      <div class="divider-gold reveal reveal-delay-2"><span></span></div>
     </div>
-  </section>
+    <div class="cards-grid">
+      <div class="card reveal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Accompagnement 360°</h3>
+        <p>Robes, traiteurs, photographes, DJ, wedding planners, bijoutiers… tous les acteurs de votre mariage réunis en un lieu unique pour vous simplifier l'organisation.</p>
+      </div>
+      <div class="card reveal reveal-delay-1">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3>Date Saint-Valentin unique</h3>
+        <p>Ouverture en avant-première le vendredi 14 février — la Saint-Valentin. Un cadre romantique exceptionnel pour commencer à rêver votre journée parfaite.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+        </div>
+        <h3>Diversité culturelle</h3>
+        <p>Mariage civil, religieux, oriental, africain, PACS… Le Salon de l'Union célèbre toutes les formes d'union avec des exposants spécialisés dans chaque tradition culturelle.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <span class="footer-logo">Areony</span>
-    <span class="footer-copy">&copy; 2026 AREONY. Tous droits reserves.</span>
-  </footer>
+<!-- ── Aperçu Exposants ─────────────────────────────────────── -->
+<section class="section" aria-labelledby="expo-heading">
+  <div class="container">
+    <div class="text-center">
+      <span class="section-label reveal">Nos exposants</span>
+      <h2 id="expo-heading" class="section-title reveal reveal-delay-1">Tous les acteurs<br />de votre union</h2>
+      <div class="divider-gold reveal reveal-delay-2"><span></span></div>
+      <p class="section-subtitle reveal reveal-delay-2">De la robe à la lune de miel — retrouvez toutes les catégories sous un même toit.</p>
+    </div>
+    <div class="exposants-grid">
+      <div class="exposant-cat reveal">
+        <div class="exposant-cat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a1 1 0 001 1h12a1 1 0 001-1V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg></div>
+        <div class="exposant-cat-name">Robes &amp; Costumes</div>
+      </div>
+      <div class="exposant-cat reveal reveal-delay-1">
+        <div class="exposant-cat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+        <div class="exposant-cat-name">Traiteurs</div>
+      </div>
+      <div class="exposant-cat reveal reveal-delay-2">
+        <div class="exposant-cat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <div class="exposant-cat-name">Photo &amp; Vidéo</div>
+      </div>
+      <div class="exposant-cat reveal reveal-delay-3">
+        <div class="exposant-cat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="exposant-cat-name">Fleuristes &amp; Déco</div>
+      </div>
+      <div class="exposant-cat reveal">
+        <div class="exposant-cat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/><circle cx="12" cy="7" r="1.5" fill="currentColor"/></svg></div>
+        <div class="exposant-cat-name">Bijouteries</div>
+      </div>
+      <div class="exposant-cat reveal reveal-delay-1">
+        <div class="exposant-cat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="exposant-cat-name">Lieux de réception</div>
+      </div>
+      <div class="exposant-cat reveal reveal-delay-2">
+        <div class="exposant-cat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="exposant-cat-name">Voyages &amp; Lunes de miel</div>
+      </div>
+      <div class="exposant-cat reveal reveal-delay-3">
+        <div class="exposant-cat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <div class="exposant-cat-name">DJ &amp; Musiciens</div>
+      </div>
+    </div>
+    <div class="text-center" style="margin-top:48px;">
+      <a href="exposants.html" class="btn btn-outline-gold reveal">Voir toutes les catégories</a>
+    </div>
+  </div>
+</section>
 
-  <script>
-    var FORMSPREE_HOME = 'https://formspree.io/f/xvzdeove';
+<!-- ── Pass VIP ─────────────────────────────────────────────── -->
+<section class="section vip-section" id="vip" aria-labelledby="vip-heading">
+  <div class="container text-center">
+    <span class="section-label reveal">Expérience exclusive</span>
+    <h2 id="vip-heading" class="section-title reveal reveal-delay-1" style="color:var(--white)">Pass VIP — Vivez l'union<br />avant tout le monde</h2>
+    <div class="divider-gold reveal reveal-delay-2"><span></span></div>
+    <p class="reveal reveal-delay-2" style="max-width:560px;margin:0 auto;">
+      Le vendredi 14 février, accédez en avant-première à la soirée d'inauguration privée. Champagne, défilé exclusif et networking avec les exposants.
+    </p>
+    <div class="vip-price reveal reveal-delay-3"><sup>€</sup>15</div>
+    <p style="color:rgba(255,255,255,0.5);font-size:0.8rem;margin-bottom:32px;" class="reveal reveal-delay-3">par personne · accès 3 jours inclus</p>
+    <ul class="vip-list reveal reveal-delay-3">
+      <li class="vip-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Soirée privée vendredi 14 février (18h–22h)
+      </li>
+      <li class="vip-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Un verre de champagne offert à l'entrée
+      </li>
+      <li class="vip-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Accès prioritaire aux défilés (coupe-file)
+      </li>
+      <li class="vip-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Goody bag exclusif Salon de l'Union
+      </li>
+      <li class="vip-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Cocktail d'inauguration avec les exposants
+      </li>
+      <li class="vip-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Badge VIP nominatif
+      </li>
+    </ul>
+    <a href="billetterie.html#vip" class="btn btn-primary btn-lg reveal reveal-delay-4">Obtenir mon Pass VIP</a>
+  </div>
+</section>
 
-    var homeForm        = document.getElementById('homeContactForm');
-    var homeSubmitBtn   = document.getElementById('homeSubmitBtn');
-    var homeConfirmation = document.getElementById('homeConfirmation');
+<!-- ── Footer ───────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <img src="images/logo.png" alt="Salon de l'Union" style="filter:brightness(0) invert(1);opacity:0.85;height:48px;" />
+        </a>
+        <p>Premier salon mariage &amp; PACS du bassin lensois.<br />14, 15 &amp; 16 février 2027 — Salle Bertinchamps, Lens.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="programme.html">Programme</a></li>
+          <li><a href="exposants.html">Exposants</a></li>
+          <li><a href="sponsors.html">Partenaires</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Billetterie</h5>
+        <ul>
+          <li><a href="billetterie.html">Entrée Standard — 4 €</a></li>
+          <li><a href="billetterie.html#vip">Pass VIP — 15 €</a></li>
+          <li><a href="billetterie.html">Réserver maintenant</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Infos pratiques</h5>
+        <ul>
+          <li><a href="contact.html">Salle Bertinchamps, Lens</a></li>
+          <li><a href="contact.html">Route de Béthune, 62300</a></li>
+          <li><a href="contact.html">Accès TADAO gratuit</a></li>
+          <li><a href="contact.html">contact@salondel-union.fr</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2027 Salon de l'Union · Tous droits réservés</p>
+      <p>
+        <a href="#">Mentions légales</a> &nbsp;·&nbsp;
+        <a href="#">Politique de confidentialité</a> &nbsp;·&nbsp;
+        <a href="#">CGV</a>
+      </p>
+    </div>
+  </div>
+</footer>
 
-    function hField(id) { return document.getElementById('h-' + id); }
-    function hGroup(id) { return document.getElementById('hgroup-' + id); }
-
-    function hValidateEmail(val) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-    }
-
-    function hClearErrors() {
-      ['prenom','nom','email','projet'].forEach(function(id) {
-        var g = hGroup(id); var f = hField(id);
-        if (g) g.classList.remove('has-error');
-        if (f) f.classList.remove('error');
-      });
-    }
-
-    function hShowError(id, msg) {
-      var g = hGroup(id); var f = hField(id);
-      if (g) g.classList.add('has-error');
-      if (f) f.classList.add('error');
-      if (msg) {
-        var el = document.getElementById('h-' + id + '-error-msg');
-        if (el) el.textContent = msg;
-      }
-    }
-
-    function hValidate() {
-      var valid = true;
-      if (!hField('prenom').value.trim()) { hShowError('prenom'); valid = false; }
-      if (!hField('nom').value.trim())    { hShowError('nom');    valid = false; }
-      var emailVal = hField('email').value.trim();
-      if (!emailVal || !hValidateEmail(emailVal)) {
-        hShowError('email', 'Veuillez entrer une adresse email valide.');
-        valid = false;
-      }
-      if (!hField('projet').value.trim()) { hShowError('projet'); valid = false; }
-      return valid;
-    }
-
-    homeForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      hClearErrors();
-      if (!hValidate()) return;
-
-      homeSubmitBtn.disabled = true;
-      homeSubmitBtn.textContent = 'Envoi en cours...';
-
-      fetch(FORMSPREE_HOME, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          prenom:  hField('prenom').value.trim(),
-          nom:     hField('nom').value.trim(),
-          email:   hField('email').value.trim(),
-          message: hField('projet').value.trim()
-        })
-      })
-      .then(function(res) {
-        if (res.ok) {
-          homeForm.style.display = 'none';
-          homeConfirmation.classList.add('visible');
-        } else {
-          return res.json().then(function(d) { throw new Error(d.error || 'Erreur serveur'); });
-        }
-      })
-      .catch(function(err) {
-        homeSubmitBtn.disabled = false;
-        homeSubmitBtn.textContent = 'Envoyer le message';
-        alert('Une erreur est survenue. Veuillez reessayer.');
-        console.error(err);
-      });
-    });
-
-    ['prenom','nom','email','projet'].forEach(function(id) {
-      var f = hField(id);
-      if (!f) return;
-      f.addEventListener('input', function() {
-        hGroup(id).classList.remove('has-error');
-        f.classList.remove('error');
-      });
-    });
-  </script>
-
+<div class="toast" role="alert" aria-live="polite"></div>
+<script src="js/main.js"></script>
 </body>
 </html>
