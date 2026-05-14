@@ -3,556 +3,315 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact — AREONY</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta name="description" content="Contactez le Salon de l'Union — Une question sur le salon mariage & PACS de Lens ? Renseignements, exposants, partenariats, presse. Réponse sous 48h." />
+  <title>Contact — Salon de l'Union</title>
+  <link rel="stylesheet" href="css/style.css" />
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --black:      #0A0A0A;
-      --black-card: #111111;
-      --black-mid:  #161616;
-      --gold:       #C9A84C;
-      --gold-light: #DFC06A;
-      --gold-dim:   #9A7A32;
-      --white:      #F0EDE8;
-      --white-dim:  #A8A49E;
-      --border:     rgba(201,168,76,0.18);
-      --border-input: rgba(201,168,76,0.25);
-      --font:       'Plus Jakarta Sans', sans-serif;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background-color: var(--black);
-      color: var(--white);
-      font-family: var(--font);
-      font-size: 16px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ── NAVBAR ─────────────────────────────────────────── */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 6vw;
-      height: 72px;
-      background: rgba(10,10,10,0.92);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      color: var(--white);
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
-    .nav-cta {
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      border: 1px solid var(--gold-dim);
-      padding: 9px 22px;
-      border-radius: 3px;
-      transition: background 0.25s, color 0.25s;
-    }
-
-    .nav-cta:hover {
-      background: var(--gold);
-      color: var(--black);
-    }
-
-    /* ── CONTACT SECTION ─────────────────────────────────── */
-    .contact-section {
-      flex: 1;
-      padding: 140px 6vw 100px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-    }
-
-    .contact-container {
-      width: 100%;
-      max-width: 780px;
-    }
-
-    .contact-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 18px;
-    }
-
-    .contact-title {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--white);
-      margin-bottom: 16px;
-    }
-
-    .contact-sub {
-      font-size: 0.95rem;
-      color: var(--white-dim);
-      margin-bottom: 60px;
-      max-width: 440px;
-      line-height: 1.7;
-    }
-
-    /* ── FORM ────────────────────────────────────────────── */
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-
-    .form-row {
+    .contact-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 56px;
+      align-items: start;
     }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .form-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--white-dim);
-    }
-
-    .form-input,
-    .form-textarea {
-      background: var(--black-card);
-      border: 1px solid var(--border-input);
-      border-radius: 4px;
-      color: var(--white);
-      font-family: var(--font);
-      font-size: 0.95rem;
-      font-weight: 400;
-      padding: 16px 20px;
-      outline: none;
-      transition: border-color 0.25s, box-shadow 0.25s;
-      width: 100%;
-      -webkit-appearance: none;
-    }
-
-    .form-input::placeholder,
-    .form-textarea::placeholder {
-      color: rgba(168,164,158,0.45);
-    }
-
-    .form-input:focus,
-    .form-textarea:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
-    }
-
-    .form-input.error,
-    .form-textarea.error {
-      border-color: #c0392b;
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 160px;
-      line-height: 1.6;
-    }
-
-    .form-error-msg {
-      font-size: 0.72rem;
-      color: #e74c3c;
-      margin-top: -6px;
-      display: none;
-    }
-
-    .form-group.has-error .form-error-msg {
-      display: block;
-    }
-
-    .btn-submit {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--black);
-      font-family: var(--font);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 18px 44px;
-      border-radius: 3px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.25s, transform 0.2s;
-      align-self: flex-start;
-      position: relative;
-    }
-
-    .btn-submit:hover:not(:disabled) {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-    }
-
-    .btn-submit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    /* ── CONFIRMATION ────────────────────────────────────── */
-    .confirmation {
-      display: none;
-      text-align: center;
-      padding: 64px 40px;
-      background: var(--black-card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .confirmation::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-    }
-
-    .confirmation.visible {
-      display: block;
-    }
-
-    .confirmation-icon {
-      width: 56px;
-      height: 56px;
-      border: 2px solid var(--gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 28px;
-    }
-
-    .confirmation-icon svg {
-      width: 24px;
-      height: 24px;
-      stroke: var(--gold);
-      fill: none;
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .confirmation-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 14px;
-      letter-spacing: -0.01em;
-    }
-
-    .confirmation-text {
-      font-size: 0.95rem;
-      color: var(--white-dim);
-      line-height: 1.7;
-      max-width: 380px;
-      margin: 0 auto 36px;
-    }
-
-    .confirmation-link {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      border-bottom: 1px solid var(--gold-dim);
-      padding-bottom: 2px;
-      transition: color 0.2s;
-    }
-
-    .confirmation-link:hover {
-      color: var(--gold-light);
-    }
-
-    /* ── FOOTER ──────────────────────────────────────────── */
-    .footer {
-      background: var(--black);
-      border-top: 1px solid var(--border);
-      padding: 40px 6vw;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .footer-logo {
-      font-size: 1rem;
-      font-weight: 800;
+    .contact-form-col .form-section { max-width: 100%; margin: 0; }
+    .contact-info-col { display: flex; flex-direction: column; gap: 28px; }
+    .social-section-title {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
       letter-spacing: 0.2em;
-      color: var(--white);
       text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: block;
     }
-
-    .footer-copy {
-      font-size: 0.76rem;
-      color: var(--white-dim);
-      letter-spacing: 0.04em;
-    }
-
-    /* ── RESPONSIVE ──────────────────────────────────────── */
-    @media (max-width: 640px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .nav {
-        padding: 0 5vw;
-        height: 64px;
-      }
-
-      .nav-logo {
-        font-size: 1.1rem;
-      }
-
-      .contact-section {
-        padding: 110px 5vw 80px;
-      }
-
-      .btn-submit {
-        width: 100%;
-        text-align: center;
-      }
-
-      .footer {
-        flex-direction: column;
-        text-align: center;
-      }
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 40px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="nav">
-    <a href="index.html" class="nav-logo">Areony</a>
-    <a href="contact.html" class="nav-cta">Nous contacter</a>
-  </nav>
+<!-- ── Navigation ──────────────────────────────────────────── -->
+<nav class="nav transparent" aria-label="Navigation principale">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="images/logo.png" alt="Salon de l'Union" />
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="programme.html">Programme</a></li>
+      <li><a href="exposants.html">Exposants</a></li>
+      <li><a href="sponsors.html">Partenaires</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="billetterie.html" class="nav-cta">Billetterie</a>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-  <!-- CONTACT SECTION -->
-  <main class="contact-section">
-    <div class="contact-container">
+<div class="mobile-menu" role="dialog" aria-label="Menu mobile">
+  <a href="index.html">Accueil</a>
+  <a href="programme.html">Programme</a>
+  <a href="exposants.html">Exposants</a>
+  <a href="sponsors.html">Partenaires</a>
+  <a href="contact.html">Contact</a>
+  <a href="billetterie.html" class="btn btn-primary btn-sm">Billetterie</a>
+</div>
 
-      <p class="contact-label">Prise de contact</p>
-      <h1 class="contact-title">Discutons de votre projet</h1>
-      <p class="contact-sub">Decrivez-nous votre situation et nous vous repondrons dans les 24 heures avec une analyse personnalisee.</p>
+<!-- ── Hero ────────────────────────────────────────────────── -->
+<section class="page-hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <span class="section-label">Nous écrire</span>
+    <h1 id="hero-heading">Contactez-<em style="font-style:italic;color:var(--gold-light)">nous</em></h1>
+    <p>Une question ? Nous vous répondrons dans les 48h.</p>
+  </div>
+</section>
 
-      <!-- FORM -->
-      <form class="form" id="contactForm" novalidate>
+<!-- ── Contact principal ─────────────────────────────────────── -->
+<section class="section" aria-labelledby="contact-heading">
+  <div class="container">
+    <div class="contact-layout">
 
-        <div class="form-row">
-          <div class="form-group" id="group-prenom">
-            <label class="form-label" for="prenom">Prenom</label>
-            <input class="form-input" type="text" id="prenom" name="prenom" placeholder="Jean" autocomplete="given-name" />
-            <span class="form-error-msg">Ce champ est obligatoire.</span>
+      <!-- Formulaire (colonne gauche) -->
+      <div class="contact-form-col reveal">
+        <span class="section-label" style="margin-bottom:8px;">Formulaire de contact</span>
+        <h2 id="contact-heading" class="section-title" style="margin-bottom:32px;">Envoyez-nous<br /><em style="font-style:italic;color:var(--gold)">un message</em></h2>
+        <form id="form-contact" class="validated-form form-section" data-action="generic" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="ct-nom">Nom <span aria-hidden="true">*</span></label>
+              <input class="form-input" type="text" id="ct-nom" name="nom" required autocomplete="family-name" placeholder="Dupont" />
+              <span class="form-error" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ct-prenom">Prénom <span aria-hidden="true">*</span></label>
+              <input class="form-input" type="text" id="ct-prenom" name="prenom" required autocomplete="given-name" placeholder="Marie" />
+              <span class="form-error" role="alert"></span>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="ct-email">Email <span aria-hidden="true">*</span></label>
+              <input class="form-input" type="email" id="ct-email" name="email" required autocomplete="email" placeholder="votre@email.fr" />
+              <span class="form-error" role="alert"></span>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="ct-objet">Objet <span aria-hidden="true">*</span></label>
+              <select class="form-select" id="ct-objet" name="objet" required>
+                <option value="" disabled selected>Choisissez un objet…</option>
+                <option value="visiteurs">Renseignements visiteurs</option>
+                <option value="exposant">Devenir exposant</option>
+                <option value="partenariat">Partenariat &amp; sponsoring</option>
+                <option value="presse">Presse</option>
+                <option value="autre">Autre</option>
+              </select>
+              <span class="form-error" role="alert"></span>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="ct-message">Message <span aria-hidden="true">*</span></label>
+              <textarea class="form-textarea" id="ct-message" name="message" required rows="6" placeholder="Décrivez votre demande en détail…"></textarea>
+              <span class="form-error" role="alert"></span>
+            </div>
+            <div class="form-group full">
+              <label class="form-checkbox">
+                <input type="checkbox" name="rgpd" required />
+                <span>J'accepte que mes données soient traitées par le Salon de l'Union pour répondre à ma demande, conformément à la <a href="#" style="color:var(--gold);text-decoration:underline;">politique de confidentialité</a>. <span aria-hidden="true">*</span></span>
+              </label>
+              <span class="form-error" role="alert"></span>
+            </div>
           </div>
-          <div class="form-group" id="group-nom">
-            <label class="form-label" for="nom">Nom</label>
-            <input class="form-input" type="text" id="nom" name="nom" placeholder="Dupont" autocomplete="family-name" />
-            <span class="form-error-msg">Ce champ est obligatoire.</span>
-          </div>
-        </div>
-
-        <div class="form-group" id="group-email">
-          <label class="form-label" for="email">Adresse email</label>
-          <input class="form-input" type="email" id="email" name="email" placeholder="jean.dupont@entreprise.com" autocomplete="email" />
-          <span class="form-error-msg" id="email-error-msg">Veuillez entrer une adresse email valide.</span>
-        </div>
-
-        <div class="form-group" id="group-projet">
-          <label class="form-label" for="projet">Description du projet</label>
-          <textarea class="form-textarea" id="projet" name="projet" placeholder="Decrivez brievement votre activite, les taches que vous souhaitez automatiser, et vos objectifs..."></textarea>
-          <span class="form-error-msg">Ce champ est obligatoire.</span>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitBtn">Envoyer le message</button>
-
-      </form>
-
-      <!-- CONFIRMATION -->
-      <div class="confirmation" id="confirmation">
-        <div class="confirmation-icon">
-          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        </div>
-        <h2 class="confirmation-title">Message envoye</h2>
-        <p class="confirmation-text">
-          Merci pour votre message. Nous avons bien recu votre demande et vous repondrons dans les 24 heures.
-        </p>
-        <a href="index.html" class="confirmation-link">Retour a l'accueil</a>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;" data-label="Envoyer le message">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Envoyer le message
+          </button>
+        </form>
       </div>
 
+      <!-- Infos pratiques (colonne droite) -->
+      <div class="contact-info-col">
+
+        <div class="reveal reveal-delay-1">
+          <span class="section-label" style="margin-bottom:16px;">Infos pratiques</span>
+          <div class="info-card">
+            <div class="info-item">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <strong>Adresse</strong>
+                <span>Salle Bertinchamps<br />Route de Béthune, 62300 Lens</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <rect x="1" y="3" width="15" height="13" rx="2"/>
+                  <path d="M16 8h4l3 3v5h-7V8z"/>
+                  <circle cx="5.5" cy="18.5" r="2.5"/>
+                  <circle cx="18.5" cy="18.5" r="2.5"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <strong>Accès</strong>
+                <span>Transports TADAO gratuits depuis janvier 2026<br />Parking sur place</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <strong>Email</strong>
+                <span><a href="mailto:contact@salondel-union.fr" style="color:var(--gold);">contact@salondel-union.fr</a></span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <strong>Téléphone</strong>
+                <span><a href="tel:+33300000000" style="color:var(--gold);">+33 3 XX XX XX XX</a></span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <strong>Horaires d'ouverture</strong>
+                <span>
+                  Ven. 14/02 : 18h–22h (soirée VIP)<br />
+                  Sam. 15/02 : 10h–19h<br />
+                  Dim. 16/02 : 10h–18h
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carte Google Maps -->
+        <div class="reveal reveal-delay-2">
+          <span class="section-label" style="margin-bottom:12px;display:block;">Nous trouver</span>
+          <div class="map-embed">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2531.0!2d2.8242!3d50.4323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zLens!5e0!3m2!1sfr!2sfr!4v1"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Salle Bertinchamps, Lens — Salon de l'Union"
+            ></iframe>
+          </div>
+        </div>
+
+        <!-- Réseaux sociaux -->
+        <div class="reveal reveal-delay-3">
+          <span class="social-section-title">Suivez-nous</span>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Notre page Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+              Facebook
+            </a>
+            <a href="#" class="social-link" aria-label="Notre compte Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+              Instagram
+            </a>
+            <a href="#" class="social-link" aria-label="Notre compte TikTok">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+              </svg>
+              TikTok
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /contact-info-col -->
+    </div><!-- /contact-layout -->
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <img src="images/logo.png" alt="Salon de l'Union" style="filter:brightness(0) invert(1);opacity:0.85;height:48px;" />
+        </a>
+        <p>Premier salon mariage &amp; PACS du bassin lensois.<br />14, 15 &amp; 16 février 2027 — Salle Bertinchamps, Lens.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="programme.html">Programme</a></li>
+          <li><a href="exposants.html">Exposants</a></li>
+          <li><a href="sponsors.html">Partenaires</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Billetterie</h5>
+        <ul>
+          <li><a href="billetterie.html">Entrée Standard — 4 €</a></li>
+          <li><a href="billetterie.html#vip">Pass VIP — 15 €</a></li>
+          <li><a href="billetterie.html">Réserver maintenant</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Infos pratiques</h5>
+        <ul>
+          <li><a href="contact.html">Salle Bertinchamps, Lens</a></li>
+          <li><a href="contact.html">Route de Béthune, 62300</a></li>
+          <li><a href="contact.html">Accès TADAO gratuit</a></li>
+          <li><a href="contact.html">contact@salondel-union.fr</a></li>
+        </ul>
+      </div>
     </div>
-  </main>
+    <div class="footer-bottom">
+      <p>&copy; 2027 Salon de l'Union · Tous droits réservés</p>
+      <p>
+        <a href="#">Mentions légales</a> &nbsp;·&nbsp;
+        <a href="#">Politique de confidentialité</a> &nbsp;·&nbsp;
+        <a href="#">CGV</a>
+      </p>
+    </div>
+  </div>
+</footer>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <span class="footer-logo">Areony</span>
-    <span class="footer-copy">&copy; 2026 AREONY. Tous droits reserves.</span>
-  </footer>
-
-  <!--
-    CONFIGURATION FORMSPREE
-    1. Creez un compte sur https://formspree.io
-    2. Creez un nouveau formulaire avec l'email yovan.anoumou@areony.net
-    3. Remplacez YOUR_FORM_ID ci-dessous par l'identifiant fourni
-  -->
-  <script>
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzdeove';
-
-    const form        = document.getElementById('contactForm');
-    const submitBtn   = document.getElementById('submitBtn');
-    const confirmation = document.getElementById('confirmation');
-
-    function getField(id)  { return document.getElementById(id); }
-    function getGroup(id)  { return document.getElementById('group-' + id); }
-
-    function validateEmail(val) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-    }
-
-    function clearErrors() {
-      ['prenom','nom','email','projet'].forEach(function(id) {
-        var g = getGroup(id);
-        var f = getField(id);
-        if (g) g.classList.remove('has-error');
-        if (f) f.classList.remove('error');
-      });
-    }
-
-    function showError(id, customMsg) {
-      var g = getGroup(id);
-      var f = getField(id);
-      if (g) g.classList.add('has-error');
-      if (f) f.classList.add('error');
-      if (customMsg) {
-        var msgEl = document.getElementById(id + '-error-msg');
-        if (msgEl) msgEl.textContent = customMsg;
-      }
-    }
-
-    function validate() {
-      var valid = true;
-
-      if (!getField('prenom').value.trim()) {
-        showError('prenom');
-        valid = false;
-      }
-      if (!getField('nom').value.trim()) {
-        showError('nom');
-        valid = false;
-      }
-      var emailVal = getField('email').value.trim();
-      if (!emailVal || !validateEmail(emailVal)) {
-        showError('email', 'Veuillez entrer une adresse email valide.');
-        valid = false;
-      }
-      if (!getField('projet').value.trim()) {
-        showError('projet');
-        valid = false;
-      }
-
-      return valid;
-    }
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      clearErrors();
-
-      if (!validate()) return;
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Envoi en cours...';
-
-      var payload = {
-        prenom:  getField('prenom').value.trim(),
-        nom:     getField('nom').value.trim(),
-        email:   getField('email').value.trim(),
-        message: getField('projet').value.trim()
-      };
-
-      fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-      .then(function(res) {
-        if (res.ok) {
-          form.style.display = 'none';
-          confirmation.classList.add('visible');
-        } else {
-          return res.json().then(function(data) {
-            throw new Error(data.error || 'Erreur serveur');
-          });
-        }
-      })
-      .catch(function(err) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Envoyer le message';
-        alert('Une erreur est survenue lors de l\'envoi. Veuillez reessayer ou contacter directement yovan.anoumou@areony.net');
-        console.error(err);
-      });
-    });
-
-    /* Remove error state on input */
-    ['prenom','nom','email','projet'].forEach(function(id) {
-      var f = getField(id);
-      if (!f) return;
-      f.addEventListener('input', function() {
-        var g = getGroup(id);
-        if (g) g.classList.remove('has-error');
-        f.classList.remove('error');
-      });
-    });
-  </script>
-
+<div class="toast" role="alert" aria-live="polite"></div>
+<script src="js/main.js"></script>
 </body>
 </html>
