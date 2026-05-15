@@ -200,7 +200,15 @@ p  { line-height: 1.75; color: var(--text-muted); }
   margin: 0 auto;
   padding: 0 24px;
 }
-.nav-logo img { height: 52px; width: auto; }
+.nav-logo img {
+  height: 52px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+/* Logo sur fonds clairs (sections, billet) : fond blanc invisible */
+.logo-on-light {
+  mix-blend-mode: multiply;
+}
 .nav-logo-text {
   font-family: var(--font-serif);
   font-size: 1.2rem;
@@ -297,7 +305,7 @@ p  { line-height: 1.75; color: var(--text-muted); }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: url('../images/couple.jpg') center center / cover no-repeat;
+  background: url('../images/couple.png') center center / cover no-repeat;
 }
 .hero-bg::after {
   content: '';
