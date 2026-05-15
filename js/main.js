@@ -58,7 +58,7 @@
 
 /* ── Countdown ──────────────────────────────────────────────── */
 (function initCountdown() {
-  const target = new Date('2027-02-14T18:00:00');
+  const target = new Date('2027-02-12T18:00:00');
 
   const elJours   = document.getElementById('cd-jours');
   const elHeures  = document.getElementById('cd-heures');
