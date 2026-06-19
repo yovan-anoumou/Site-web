@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>APEX — Automobili Lamborghini · Concept Demo</title>
+<meta name="description" content="APEX — an immersive concept showcase for Automobili Lamborghini. Configure the bull, feel the telemetry, beyond every limit." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Archivo+Expanded:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --bg:#070708;
+    --bg2:#0c0d0f;
+    --carbon:#111316;
+    --ink:#f5f5f6;
+    --muted:#8b8d93;
+    --line:rgba(255,255,255,.09);
+
+    --giallo:#ffd60a;        /* brand yellow */
+    --arancio:#ff6a00;
+    --rosso:#ff2417;
+
+    --accent:var(--giallo);  /* driven by drive-mode */
+    --car:#ffd60a;           /* driven by configurator */
+
+    --display:'Archivo Expanded','Archivo',sans-serif;
+    --sans:'Archivo',system-ui,sans-serif;
+    --mono:'JetBrains Mono',monospace;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --maxw:1280px;
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);background:var(--bg);color:var(--ink);
+    line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    cursor:none;
+  }
+  @media(pointer:coarse){body{cursor:auto}}
+
+  ::selection{background:var(--accent);color:#0a0a0a}
+  a{color:inherit;text-decoration:none}
+  svg{display:block}
+  img{max-width:100%;display:block}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,56px)}
+
+  /* hex mesh + grain backdrop */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background:
+      radial-gradient(60% 50% at 80% -5%,rgba(255,214,10,.10),transparent 60%),
+      radial-gradient(55% 45% at 10% 110%,rgba(255,106,0,.07),transparent 60%);
+    transition:background .8s var(--ease);
+  }
+  body[data-mode="sport"]::before{background:radial-gradient(60% 50% at 80% -5%,rgba(255,106,0,.14),transparent 60%),radial-gradient(55% 45% at 10% 110%,rgba(255,106,0,.08),transparent 60%)}
+  body[data-mode="corsa"]::before{background:radial-gradient(60% 50% at 80% -5%,rgba(255,36,23,.16),transparent 60%),radial-gradient(55% 45% at 10% 110%,rgba(255,36,23,.10),transparent 60%)}
+  .hexfield{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.20;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.5' stroke-width='1'%3E%3Cpath d='M28 0L52 14V42L28 56L4 42V14Z'/%3E%3Cpath d='M28 56L52 70V98L28 112L4 98V70Z'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:56px 100px;
+    mask-image:radial-gradient(120% 90% at 50% 0%,#000 30%,transparent 75%);
+    -webkit-mask-image:radial-gradient(120% 90% at 50% 0%,#000 30%,transparent 75%);
+  }
+
+  /* ---------- custom cursor ---------- */
+  .cursor{position:fixed;top:0;left:0;z-index:9000;pointer-events:none;mix-blend-mode:difference;
+    width:34px;height:34px;margin:-17px 0 0 -17px;transition:transform .18s var(--ease),opacity .3s}
+  .cursor svg{width:100%;height:100%;color:#fff}
+  .cursor.hot{transform:scale(1.8)}
+  .cursor-dot{position:fixed;top:0;left:0;z-index:9001;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;background:var(--accent);pointer-events:none}
+  @media(pointer:coarse){.cursor,.cursor-dot{display:none}}
+
+  /* ---------- scroll progress ---------- */
+  .progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--accent);z-index:8000;box-shadow:0 0 12px var(--accent)}
+
+  /* ---------- preloader ---------- */
+  .preload{position:fixed;inset:0;z-index:9500;background:var(--bg);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:30px;transition:transform .9s var(--ease),opacity .6s}
+  .preload.done{transform:translateY(-100%);opacity:0;pointer-events:none}
+  .preload svg{width:120px;height:120px}
+  .preload .hx{fill:none;stroke:var(--accent);stroke-width:3;stroke-dasharray:360;stroke-dashoffset:360;
+    animation:draw 1.6s var(--ease) forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .preload .count{font-family:var(--mono);font-size:.9rem;letter-spacing:.4em;color:var(--muted)}
+  .preload .count b{color:var(--ink)}
+
+  /* ---------- buttons ---------- */
+  .btn{position:relative;display:inline-flex;align-items:center;gap:.7em;font-family:var(--mono);
+    font-size:.82rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+    padding:1.05em 1.9em;cursor:none;border:1px solid var(--line);color:var(--ink);
+    background:transparent;overflow:hidden;transition:color .4s var(--ease),border-color .4s;
+    clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+  .btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--accent);
+    transform:translateY(101%);transition:transform .45s var(--ease)}
+  .btn:hover{color:#0a0a0a;border-color:var(--accent)}
+  .btn:hover::before{transform:none}
+  .btn.solid{background:var(--accent);color:#0a0a0a;border-color:var(--accent)}
+  .btn.solid::before{background:#0a0a0a}
+  .btn.solid:hover{color:var(--accent)}
+  .btn svg{width:15px;height:15px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  /* ---------- kicker / labels ---------- */
+  .kicker{font-family:var(--mono);font-size:.74rem;letter-spacing:.34em;text-transform:uppercase;color:var(--accent);
+    display:inline-flex;align-items:center;gap:.8em}
+  .kicker::before{content:"";width:30px;height:1px;background:var(--accent)}
+  h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spacing:-.01em;text-transform:uppercase}
+
+  /* ---------- nav ---------- */
+  header.nav{position:fixed;top:0;left:0;right:0;z-index:300;transition:transform .5s var(--ease),background .4s,border-color .4s;
+    border-bottom:1px solid transparent}
+  header.nav.hidden{transform:translateY(-100%)}
+  header.nav.solid{background:rgba(7,7,8,.82);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:74px;max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,56px)}
+  .brand{display:flex;align-items:center;gap:.7em;font-family:var(--display);font-weight:900;font-size:1.05rem;letter-spacing:.32em}
+  .brand .bull{width:30px;height:30px;color:var(--accent)}
+  .nav-links{display:flex;align-items:center;gap:2.2em}
+  .nav-links a{font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);position:relative;transition:color .3s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--accent);transition:width .35s var(--ease)}
+  .nav-links a:hover::after{width:100%}
+  .nav-conf{padding:.7em 1.3em;border:1px solid var(--line);color:var(--ink)!important;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);transition:.35s}
+  .nav-conf:hover{background:var(--accent);color:#0a0a0a!important;border-color:var(--accent)}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:none;padding:8px}
+  .burger span{width:26px;height:2px;background:var(--ink);transition:.3s var(--ease)}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;z-index:1;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+    padding:120px 0 60px;overflow:hidden}
+  .ghost{position:absolute;top:8%;left:50%;transform:translateX(-50%);z-index:-1;width:115%;text-align:center;
+    font-family:var(--display);font-weight:900;font-size:24vw;letter-spacing:.02em;line-height:1;white-space:nowrap;
+    color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);user-select:none;pointer-events:none}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:18px;position:relative;z-index:2}
+  .hero h1{font-size:clamp(2.8rem,10.5vw,9rem);margin:.18em 0 .1em}
+  .hero h1 .out{color:transparent;-webkit-text-stroke:1.4px var(--ink)}
+  .hero h1 .fill{color:var(--accent)}
+  .hero-sub{max-width:46ch;color:var(--muted);font-size:clamp(1rem,1.5vw,1.18rem)}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+
+  /* the SVG car stage */
+  .stage{position:relative;z-index:2;margin-top:24px;width:100%}
+  .stage svg.car{width:100%;height:auto;filter:drop-shadow(0 50px 60px rgba(0,0,0,.6))}
+  .spin{transform-origin:center;transform-box:fill-box;animation:spin 1.4s linear infinite}
+  body[data-mode="strada"] .spin{animation-duration:2.6s}
+  body[data-mode="corsa"] .spin{animation-duration:.7s}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .streak{opacity:0;transform-box:fill-box}
+  body[data-mode="corsa"] .streak{opacity:1;animation:streak .5s linear infinite}
+  @keyframes streak{from{transform:translateX(60px)}to{transform:translateX(-180px)}}
+
+  .hud{display:flex;flex-wrap:wrap;gap:0;margin-top:18px;border:1px solid var(--line);
+    clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+  .hud .cell{flex:1 1 150px;padding:18px 22px;border-right:1px solid var(--line)}
+  .hud .cell:last-child{border-right:0}
+  .hud .v{font-family:var(--display);font-weight:900;font-size:clamp(1.4rem,3vw,2.1rem);color:var(--ink)}
+  .hud .v small{color:var(--accent);font-size:.5em;margin-left:.3em}
+  .hud .l{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+  .scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+  .scrollcue .bar{width:1px;height:40px;background:linear-gradient(var(--accent),transparent);animation:cue 1.8s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.3);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+  /* ---------- marquee ---------- */
+  .marquee{position:relative;z-index:1;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:var(--bg2);overflow:hidden;padding:20px 0}
+  .mq-track{display:flex;gap:48px;width:max-content;animation:mq 26s linear infinite}
+  .marquee:hover .mq-track{animation-play-state:paused}
+  .mq-track span{font-family:var(--display);font-weight:900;font-size:clamp(1.2rem,2.4vw,1.9rem);letter-spacing:.06em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.4);text-transform:uppercase;display:inline-flex;align-items:center;gap:48px}
+  .mq-track span::after{content:"";width:10px;height:10px;background:var(--accent);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+  @keyframes mq{to{transform:translateX(-50%)}}
+
+  /* ---------- section frame ---------- */
+  section.block{position:relative;z-index:1;padding:clamp(90px,13vw,170px) 0}
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-bottom:clamp(40px,6vw,70px)}
+  .head h2{font-size:clamp(2.2rem,6vw,4.6rem)}
+  .head .idx{font-family:var(--mono);font-size:.8rem;color:var(--accent);letter-spacing:.2em}
+  .lead{max-width:52ch;color:var(--muted);font-size:1.05rem}
+
+  /* ---------- configurator ---------- */
+  .config{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .config-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(30px,5vw,64px);align-items:center}
+  .config-stage{position:relative;border:1px solid var(--line);background:
+      radial-gradient(80% 70% at 50% 30%,rgba(255,255,255,.05),transparent 70%);
+    padding:30px;overflow:hidden;clip-path:polygon(0 0,calc(100% - 26px) 0,100% 26px,100% 100%,26px 100%,0 calc(100% - 26px))}
+  .config-stage .floor{position:absolute;left:0;right:0;bottom:0;height:42%;
+    background:linear-gradient(transparent,rgba(255,255,255,.04));
+    border-top:1px solid var(--line)}
+  .config-stage svg.car{position:relative;z-index:2;width:100%;height:auto}
+  .mode-tabs{display:inline-flex;border:1px solid var(--line);margin-bottom:22px}
+  .mode-tabs button{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:.7em 1.2em;background:transparent;color:var(--muted);border:0;border-right:1px solid var(--line);cursor:none;transition:.3s}
+  .mode-tabs button:last-child{border-right:0}
+  .mode-tabs button.active{background:var(--accent);color:#0a0a0a}
+  .panel h3{font-size:clamp(1.6rem,3vw,2.3rem);margin-bottom:.1em}
+  .panel .spec-name{font-family:var(--mono);color:var(--accent);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:22px;display:block}
+  .swatches{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 26px}
+  .swatch{width:42px;height:42px;border:2px solid transparent;cursor:none;position:relative;
+    clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);transition:transform .25s var(--ease)}
+  .swatch:hover{transform:scale(1.12)}
+  .swatch.active{border-color:var(--ink);box-shadow:0 0 0 3px var(--bg2),0 0 18px rgba(255,255,255,.25)}
+  .spec-list{list-style:none;border-top:1px solid var(--line)}
+  .spec-list li{display:flex;justify-content:space-between;padding:.85em 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.85rem}
+  .spec-list li span:first-child{color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-size:.74rem}
+  .spec-list li span:last-child{color:var(--ink);font-weight:500}
+  .spec-list li .acctxt{color:var(--accent)}
+
+  /* ---------- telemetry counters ---------- */
+  .telemetry .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line)}
+  .telemetry .stat{padding:clamp(26px,4vw,46px) clamp(20px,3vw,34px);border-right:1px solid var(--line);position:relative;overflow:hidden}
+  .telemetry .stat:last-child{border-right:0}
+  .telemetry .stat::after{content:"";position:absolute;right:-30px;bottom:-30px;width:90px;height:90px;
+    background:var(--accent);opacity:.06;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+  .telemetry .num{font-family:var(--display);font-weight:900;font-size:clamp(2.6rem,7vw,5.2rem);line-height:1;color:var(--ink)}
+  .telemetry .num .u{color:var(--accent);font-size:.32em;margin-left:.2em}
+  .telemetry .cap{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+
+  /* ---------- lineup ---------- */
+  .lineup-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+  .model{position:relative;min-height:340px;border:1px solid var(--line);background:var(--carbon);overflow:hidden;
+    padding:30px;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .5s var(--ease),border-color .5s}
+  .model:hover{transform:translateY(-8px);border-color:var(--accent)}
+  .model .mglow{position:absolute;inset:0;z-index:0;opacity:.5;transition:opacity .5s,transform .8s var(--ease)}
+  .model:hover .mglow{opacity:.85;transform:scale(1.06)}
+  .model .tag{position:relative;z-index:2;align-self:flex-start;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#0a0a0a;background:var(--accent);padding:.35em .8em;margin-bottom:auto}
+  .model h3{position:relative;z-index:2;font-size:1.9rem}
+  .model p{position:relative;z-index:2;color:var(--muted);font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;margin-top:6px}
+  .model .arrow{position:relative;z-index:2;margin-top:18px;width:34px;height:34px;border:1px solid var(--line);display:grid;place-items:center;transition:.4s}
+  .model:hover .arrow{background:var(--accent);border-color:var(--accent)}
+  .model:hover .arrow svg{color:#0a0a0a}
+  .model .arrow svg{width:15px;height:15px;color:var(--ink);transition:color .4s}
+  .m1{grid-column:span 7}.m2{grid-column:span 5}.m3{grid-column:span 5}.m4{grid-column:span 7}
+  .g-revuelto{background:radial-gradient(90% 90% at 75% 15%,#3a2d00,#0c0d0f 70%)}
+  .g-temerario{background:radial-gradient(90% 90% at 20% 20%,#3a1500,#0c0d0f 70%)}
+  .g-urus{background:radial-gradient(90% 90% at 80% 80%,#001a2e,#0c0d0f 70%)}
+  .g-huracan{background:radial-gradient(90% 90% at 30% 20%,#2e0008,#0c0d0f 70%)}
+
+  /* ---------- heritage timeline ---------- */
+  .heritage{background:var(--bg2);border-top:1px solid var(--line)}
+  .timeline{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;
+    scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+  .timeline::-webkit-scrollbar{height:3px}
+  .timeline::-webkit-scrollbar-thumb{background:var(--accent)}
+  .era{scroll-snap-align:start;flex:0 0 clamp(240px,30vw,330px);padding:28px 30px 28px 0;border-top:2px solid var(--line);margin-top:30px;position:relative}
+  .era::before{content:"";position:absolute;top:-7px;left:0;width:12px;height:12px;background:var(--accent);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+  .era .yr{font-family:var(--display);font-weight:900;font-size:2.4rem;color:var(--accent)}
+  .era h4{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:1.15rem;margin:.2em 0 .5em}
+  .era p{color:var(--muted);font-size:.92rem;max-width:30ch}
+
+  /* ---------- final CTA ---------- */
+  .finale{position:relative;z-index:1;text-align:center;padding:clamp(100px,16vw,200px) 0;overflow:hidden}
+  .finale .ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(120vw,1100px);height:min(120vw,1100px);
+    border:1px solid var(--line);border-radius:50%;opacity:.4}
+  .finale .ring.r2{width:min(90vw,820px);height:min(90vw,820px)}
+  .finale h2{font-size:clamp(2.6rem,9vw,7rem);position:relative;z-index:2}
+  .finale h2 .fill{color:var(--accent)}
+  .finale p{position:relative;z-index:2;color:var(--muted);max-width:44ch;margin:18px auto 34px}
+  .finale .btn{position:relative;z-index:2}
+
+  /* ---------- footer ---------- */
+  footer{position:relative;z-index:1;border-top:1px solid var(--line);background:var(--bg);padding:60px 0 30px}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:34px;padding-bottom:40px;border-bottom:1px solid var(--line)}
+  .foot-brand{display:flex;align-items:center;gap:.7em;font-family:var(--display);font-weight:900;letter-spacing:.3em;font-size:1.1rem;margin-bottom:14px}
+  .foot-brand .bull{width:30px;height:30px;color:var(--accent)}
+  .foot p.small{color:var(--muted);font-size:.86rem;max-width:34ch}
+  .foot-col h5{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .foot-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:9px;transition:color .3s}
+  .foot-col a:hover{color:var(--ink)}
+  .foot-bottom{padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted)}
+  .disclaimer{margin-top:14px;font-family:var(--mono);font-size:.66rem;color:#55565b;letter-spacing:.04em;line-height:1.6}
+
+  /* ---------- reveals ---------- */
+  .rv{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:1000px){
+    .config-grid{grid-template-columns:1fr}
+    .telemetry .stat-grid{grid-template-columns:repeat(2,1fr)}
+    .telemetry .stat:nth-child(2){border-right:0}
+    .telemetry .stat:nth-child(1),.telemetry .stat:nth-child(2){border-bottom:1px solid var(--line)}
+    .m1,.m2,.m3,.m4{grid-column:span 12}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:760px){
+    body{cursor:auto}.cursor,.cursor-dot{display:none}
+    .nav-links{position:fixed;inset:0 0 0 auto;width:min(80vw,330px);flex-direction:column;justify-content:center;
+      gap:1.8em;background:var(--bg2);border-left:1px solid var(--line);padding:40px;transform:translateX(100%);transition:transform .45s var(--ease)}
+    .nav-links.open{transform:none}
+    .burger{display:flex}
+    .hud .cell{flex:1 1 50%;border-bottom:1px solid var(--line)}
+    .head{align-items:flex-start}
+  }
+  @media(max-width:480px){
+    .telemetry .stat-grid{grid-template-columns:1fr}
+    .telemetry .stat{border-right:0;border-bottom:1px solid var(--line)}
+    .foot-grid{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto}
+    .rv{opacity:1;transform:none}
+    body{cursor:auto}.cursor,.cursor-dot{display:none}
+  }
+</style>
+</head>
+<body data-mode="strada">
+
+<div class="hexfield"></div>
+<div class="progress" id="progress"></div>
+
+<!-- cursor -->
+<div class="cursor" id="cursor"><svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 1L33 9.5V24.5L17 33L1 24.5V9.5Z"/><circle cx="17" cy="17" r="2" fill="currentColor" stroke="none"/></svg></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- ===== reusable defs: bull + car ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bull" viewBox="0 0 48 48">
+    <path d="M24 7c-3 0-5 2-6 5-3-3-7-4-11-3 2 3 4 5 7 6-2 2-3 5-3 8 0 7 6 12 13 12s13-5 13-12c0-3-1-6-3-8 3-1 5-3 7-6-4-1-8 0-11 3-1-3-3-5-6-5z" fill="currentColor"/>
+    <circle cx="19" cy="22" r="1.7" fill="#0a0a0a"/><circle cx="29" cy="22" r="1.7" fill="#0a0a0a"/>
+  </symbol>
+</defs></svg>
+
+<!-- car template (cloned by JS into hero + configurator) -->
+<template id="car-tpl">
+  <svg class="car" viewBox="0 0 1000 460" role="img" aria-label="Lamborghini low-poly side profile">
+    <defs>
+      <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#e9e9ec"/><stop offset="1" stop-color="#5a5b60"/>
+      </linearGradient>
+      <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#2a2d33"/><stop offset="1" stop-color="#0c0d10"/>
+      </linearGradient>
+    </defs>
+
+    <!-- speed streaks (corsa) -->
+    <g stroke="var(--accent)" stroke-width="3" opacity=".7">
+      <line class="streak" x1="120" y1="150" x2="320" y2="150"/>
+      <line class="streak" x1="60"  y1="200" x2="300" y2="200" style="animation-delay:.12s"/>
+      <line class="streak" x1="160" y1="120" x2="340" y2="120" style="animation-delay:.24s"/>
+    </g>
+
+    <!-- ground shadow -->
+    <ellipse cx="500" cy="420" rx="430" ry="22" fill="#000" opacity=".55"/>
+
+    <!-- main body (painted) -->
+    <path d="M28 360 L120 318 L235 300 L360 250 L470 214 L585 210 L660 250 L820 252 L905 246 L958 300 L956 356 L905 372 L60 372 Z"
+          fill="var(--car)"/>
+    <!-- top highlight facet -->
+    <path d="M235 300 L360 250 L470 214 L585 210 L660 250 L560 262 L400 268 Z" fill="#fff" opacity=".14"/>
+    <!-- lower carbon rocker -->
+    <path d="M150 332 L860 320 L905 372 L60 372 Z" fill="#0c0d0f" opacity=".92"/>
+    <!-- nose shadow facet -->
+    <path d="M28 360 L120 318 L150 332 L60 372 Z" fill="#000" opacity=".30"/>
+    <!-- rear haunch facet -->
+    <path d="M820 252 L905 246 L958 300 L956 356 L905 372 L860 320 Z" fill="#000" opacity=".20"/>
+
+    <!-- greenhouse / glass -->
+    <path d="M380 250 L470 214 L585 210 L660 250 L560 256 L440 258 Z" fill="url(#glass)"/>
+    <!-- A-pillar highlight -->
+    <path d="M470 214 L478 215 L398 252 L388 250 Z" fill="var(--accent)" opacity=".5"/>
+
+    <!-- character blade line -->
+    <path d="M170 314 L900 300" stroke="var(--accent)" stroke-width="2.5" opacity=".85" fill="none"/>
+
+    <!-- side hexagon intake (signature) -->
+    <path d="M690 300 l26 -10 l26 10 l0 22 l-26 10 l-26 -10 Z" fill="#0a0a0a" stroke="var(--accent)" stroke-width="2"/>
+    <!-- front Y-light signature -->
+    <path d="M95 318 l24 -8 M119 310 l0 14 M119 310 l20 -6" stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- tail light bar -->
+    <path d="M918 300 L950 306 L950 318 L918 322 Z" fill="var(--rosso)" opacity=".9"/>
+
+    <!-- front wheel -->
+    <g>
+      <circle cx="250" cy="345" r="66" fill="#0a0a0b"/>
+      <circle cx="250" cy="345" r="44" fill="url(#rim)"/>
+      <g class="spin">
+        <g fill="#0a0a0b">
+          <path d="M250 345 L256 308 L244 308 Z"/><path d="M250 345 L285 322 L279 333 Z"/>
+          <path d="M250 345 L288 357 L282 367 Z"/><path d="M250 345 L262 380 L250 384 Z"/>
+          <path d="M250 345 L222 378 L235 382 Z"/><path d="M250 345 L213 357 L216 368 Z"/>
+          <path d="M250 345 L214 332 L220 322 Z"/>
+        </g>
+        <circle cx="250" cy="345" r="9" fill="#caa84b"/>
+      </g>
+      <path d="M236 318 a44 44 0 0 1 28 0" stroke="var(--accent)" stroke-width="4" fill="none" opacity=".9"/>
+    </g>
+    <!-- rear wheel -->
+    <g>
+      <circle cx="752" cy="345" r="66" fill="#0a0a0b"/>
+      <circle cx="752" cy="345" r="44" fill="url(#rim)"/>
+      <g class="spin" style="animation-delay:-.2s">
+        <g fill="#0a0a0b">
+          <path d="M752 345 L758 308 L746 308 Z"/><path d="M752 345 L787 322 L781 333 Z"/>
+          <path d="M752 345 L790 357 L784 367 Z"/><path d="M752 345 L764 380 L752 384 Z"/>
+          <path d="M752 345 L724 378 L737 382 Z"/><path d="M752 345 L715 357 L718 368 Z"/>
+          <path d="M752 345 L716 332 L722 322 Z"/>
+        </g>
+        <circle cx="752" cy="345" r="9" fill="#caa84b"/>
+      </g>
+      <path d="M738 318 a44 44 0 0 1 28 0" stroke="var(--accent)" stroke-width="4" fill="none" opacity=".9"/>
+    </g>
+  </svg>
+</template>
+
+<!-- ===== preloader ===== -->
+<div class="preload" id="preload">
+  <svg viewBox="0 0 100 100"><path class="hx" d="M50 6 L88 28 V72 L50 94 L12 72 V28 Z"/></svg>
+  <div class="count">SYS // <b id="ploadNum">000</b></div>
+</div>
+
+<!-- ===== nav ===== -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand"><svg class="bull"><use href="#bull"/></svg>APEX</a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#configure">Configure</a>
+      <a href="#telemetry">Telemetry</a>
+      <a href="#lineup">Lineup</a>
+      <a href="#heritage">Heritage</a>
+      <a href="#reserve" class="nav-conf">Reserve</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===== hero ===== -->
+<section class="hero" id="top">
+  <div class="ghost" aria-hidden="true">LAMBORGHINI</div>
+  <div class="wrap hero-grid">
+    <span class="kicker rv">Sant'Agata Bolognese · Since 1963</span>
+    <h1 class="rv d1"><span class="out">Unleash</span> the<br><span class="fill">Raging Bull</span></h1>
+    <p class="hero-sub rv d2">A naturally aggressive silhouette, electrified by a 6.5L V12 hybrid heart. Built in CSS &amp; SVG, theme it, drive it, configure it.</p>
+    <div class="hero-cta rv d2">
+      <a href="#configure" class="btn solid" data-magnet>Configure yours
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="#telemetry" class="btn" data-magnet>Telemetry</a>
+    </div>
+
+    <div class="stage rv d3" id="heroStage" aria-hidden="true"></div>
+
+    <div class="hud rv d3">
+      <div class="cell"><div class="v">1015<small>CV</small></div><div class="l">System Power</div></div>
+      <div class="cell"><div class="v">2.5<small>S</small></div><div class="l">0 – 100 km/h</div></div>
+      <div class="cell"><div class="v">350<small>KM/H</small></div><div class="l">Top Speed</div></div>
+      <div class="cell"><div class="v">9000<small>RPM</small></div><div class="l">V12 Redline</div></div>
+    </div>
+  </div>
+  <div class="scrollcue" aria-hidden="true"><span>Scroll</span><span class="bar"></span></div>
+</section>
+
+<!-- ===== marquee ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track" id="mqTrack">
+    <span>Revuelto · Temerario · Urus SE · Huracán STO · Beyond Every Limit</span>
+    <span>Revuelto · Temerario · Urus SE · Huracán STO · Beyond Every Limit</span>
+  </div>
+</div>
+
+<!-- ===== configurator ===== -->
+<section class="block config" id="configure">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="idx rv">// 01 — Configurator</span>
+        <h2 class="rv d1">Make it<br>yours.</h2>
+      </div>
+      <p class="lead rv d2">Pick a finish, switch the drive mode, and watch the machine — and its telemetry — react in real time. Every pixel is hand-built vector, no photography.</p>
+    </div>
+
+    <div class="config-grid">
+      <div class="config-stage rv" id="confStage">
+        <div class="floor"></div>
+        <!-- car injected here -->
+      </div>
+
+      <div class="panel rv d1">
+        <div class="mode-tabs" id="modeTabs" role="tablist" aria-label="Drive mode">
+          <button data-mode="strada" class="active">Strada</button>
+          <button data-mode="sport">Sport</button>
+          <button data-mode="corsa">Corsa</button>
+        </div>
+
+        <span class="spec-name" id="finishName">Giallo Orion</span>
+        <h3 id="modelName">APEX V12</h3>
+
+        <div class="swatches" id="swatches" role="group" aria-label="Body finish">
+          <button class="swatch active" data-color="#ffd60a" data-name="Giallo Orion" style="background:#ffd60a" aria-label="Giallo Orion"></button>
+          <button class="swatch" data-color="#ff6a00" data-name="Arancio Xanto" style="background:#ff6a00" aria-label="Arancio Xanto"></button>
+          <button class="swatch" data-color="#11c26d" data-name="Verde Mantis" style="background:#11c26d" aria-label="Verde Mantis"></button>
+          <button class="swatch" data-color="#1b6cf2" data-name="Blu Eleos" style="background:#1b6cf2" aria-label="Blu Eleos"></button>
+          <button class="swatch" data-color="#e60012" data-name="Rosso Mars" style="background:#e60012" aria-label="Rosso Mars"></button>
+          <button class="swatch" data-color="#edeff2" data-name="Bianco Asopo" style="background:#edeff2" aria-label="Bianco Asopo"></button>
+          <button class="swatch" data-color="#16181b" data-name="Nero Noctis" style="background:#16181b" aria-label="Nero Noctis"></button>
+        </div>
+
+        <ul class="spec-list">
+          <li><span>Drive mode</span><span class="acctxt" id="specMode">Strada</span></li>
+          <li><span>Power unit</span><span>6.5L V12 + 3× e-motor</span></li>
+          <li><span>Output</span><span id="specPower">1015 CV</span></li>
+          <li><span>0–100 km/h</span><span id="specZero">2.5 s</span></li>
+          <li><span>Character</span><span id="specChar">Refined</span></li>
+        </ul>
+        <a href="#reserve" class="btn solid" data-magnet style="margin-top:24px">Reserve this build
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== telemetry ===== -->
+<section class="block telemetry" id="telemetry">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="idx rv">// 02 — Telemetry</span><h2 class="rv d1">Numbers that<br>bite back.</h2></div>
+      <p class="lead rv d2">Figures inspired by the Revuelto flagship. Counters spin up the moment they enter your viewport.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat rv"><div class="num"><span data-count="1015">0</span><span class="u">CV</span></div><div class="cap">System Power</div></div>
+      <div class="stat rv d1"><div class="num"><span data-count="725">0</span><span class="u">NM</span></div><div class="cap">Peak Torque</div></div>
+      <div class="stat rv d2"><div class="num"><span data-count="350">0</span><span class="u">KM/H</span></div><div class="cap">Top Speed</div></div>
+      <div class="stat rv d3"><div class="num"><span data-count="63">0</span><span class="u">YRS</span></div><div class="cap">Of Obsession</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== lineup ===== -->
+<section class="block" id="lineup">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="idx rv">// 03 — The Lineup</span><h2 class="rv d1">Four ways to<br>tame it.</h2></div>
+      <p class="lead rv d2">From the V12 hybrid flagship to the super-SUV — one stable, four temperaments.</p>
+    </div>
+    <div class="lineup-grid">
+      <a href="#configure" class="model m1 rv">
+        <div class="mglow g-revuelto"></div>
+        <span class="tag">Flagship · HPEV</span>
+        <h3>Revuelto</h3><p>6.5 V12 · 1015 CV · 350 km/h</p>
+        <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+      <a href="#configure" class="model m2 rv d1">
+        <div class="mglow g-temerario"></div>
+        <span class="tag">Hybrid · V8</span>
+        <h3>Temerario</h3><p>4.0 Twin-Turbo · 920 CV</p>
+        <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+      <a href="#configure" class="model m3 rv d1">
+        <div class="mglow g-urus"></div>
+        <span class="tag">Super SUV</span>
+        <h3>Urus SE</h3><p>Plug-in Hybrid · 800 CV</p>
+        <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+      <a href="#configure" class="model m4 rv d2">
+        <div class="mglow g-huracan"></div>
+        <span class="tag">Track-bred</span>
+        <h3>Huracán STO</h3><p>5.2 V10 · 640 CV · Rear-wheel</p>
+        <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== heritage ===== -->
+<section class="block heritage" id="heritage">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="idx rv">// 04 — Heritage</span><h2 class="rv d1">Six decades,<br>one bull.</h2></div>
+      <p class="lead rv d2">Drag sideways through the moments that built the legend. From a tractor maker's defiance to a hybrid V12 future.</p>
+    </div>
+    <div class="timeline rv">
+      <div class="era"><div class="yr">1963</div><h4>The Defiance</h4><p>Ferruccio founds Automobili Lamborghini in Sant'Agata — to build a GT better than the rest.</p></div>
+      <div class="era"><div class="yr">1966</div><h4>Miura</h4><p>The mid-engined Miura rewrites what a supercar is, and births the genre overnight.</p></div>
+      <div class="era"><div class="yr">1974</div><h4>Countach</h4><p>Scissor doors and razor wedge lines define a poster on every bedroom wall for a generation.</p></div>
+      <div class="era"><div class="yr">2011</div><h4>Aventador</h4><p>A naturally aspirated V12 monolith carries the hexagon design language into the modern era.</p></div>
+      <div class="era"><div class="yr">2023</div><h4>Revuelto</h4><p>The first HPEV V12 — 1015 CV of electrified fury. The bull goes hybrid without losing its roar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== finale CTA ===== -->
+<section class="finale" id="reserve">
+  <div class="ring" aria-hidden="true"></div>
+  <div class="ring r2" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="kicker rv" style="justify-content:center">Private viewing</span>
+    <h2 class="rv d1">Reserve your<br><span class="fill">APEX</span></h2>
+    <p class="rv d2">Step into Sant'Agata. Build your spec, meet the machine, hear the V12. Limited allocations for the 2026 season.</p>
+    <a href="#" class="btn solid rv d2" data-magnet onclick="return false">Book a private viewing
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</section>
+
+<!-- ===== footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot">
+        <div class="foot-brand"><svg class="bull"><use href="#bull"/></svg>APEX</div>
+        <p class="small">An immersive concept showcase. Every surface is hand-built vector and CSS — no external imagery.</p>
+      </div>
+      <div class="foot-col"><h5>Explore</h5><a href="#configure">Configurator</a><a href="#telemetry">Telemetry</a><a href="#lineup">Lineup</a></div>
+      <div class="foot-col"><h5>Brand</h5><a href="#heritage">Heritage</a><a href="#reserve">Reserve</a><a href="#top">Top</a></div>
+      <div class="foot-col"><h5>Contact</h5><a href="#">Sant'Agata Bolognese</a><a href="#">Press kit</a><a href="#">Careers</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="yr"></span> APEX Concept</span>
+      <span>Built with CSS · SVG · Vanilla JS</span>
+    </div>
+    <p class="disclaimer">Concept / fan demo for portfolio purposes. Not affiliated with, endorsed by, or representing Automobili Lamborghini S.p.A. “Lamborghini”, model names and the raging bull are trademarks of their respective owners.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine   = matchMedia('(pointer:fine)').matches;
+  var $  = function(s,c){return (c||document).querySelector(s)};
+  var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  /* clone the car into hero + configurator */
+  var tpl = $('#car-tpl');
+  function carClone(){ return tpl.content.firstElementChild.cloneNode(true); }
+  $('#heroStage').appendChild(carClone());
+  $('#confStage').appendChild(carClone());
+
+  /* ---------- preloader ---------- */
+  var pre = $('#preload'), pnum = $('#ploadNum'), n = 0;
+  var pace = setInterval(function(){
+    n += Math.floor(Math.random()*9)+3; if(n>100)n=100;
+    pnum.textContent = ('00'+n).slice(-3);
+    if(n>=100){ clearInterval(pace); setTimeout(function(){ pre.classList.add('done'); document.body.classList.add('ready'); }, 350); }
+  }, reduce ? 12 : 90);
+  // safety
+  window.addEventListener('load', function(){ setTimeout(function(){ pre.classList.add('done'); }, 2600); });
+
+  /* ---------- custom cursor ---------- */
+  if(fine && !reduce){
+    var cur = $('#cursor'), dot = $('#cursorDot'), cx=innerWidth/2, cy=innerHeight/2, dx=cx, dy=cy;
+    addEventListener('mousemove', function(e){ cx=e.clientX; cy=e.clientY; dot.style.transform='translate('+cx+'px,'+cy+'px)'; });
+    (function loop(){ dx+=(cx-dx)*.18; dy+=(cy-dy)*.18; cur.style.transform='translate('+dx+'px,'+dy+'px)'+(cur.classList.contains('hot')?' scale(1.8)':''); requestAnimationFrame(loop); })();
+    $$('a,button,.swatch,[data-magnet]').forEach(function(el){
+      el.addEventListener('mouseenter',function(){cur.classList.add('hot')});
+      el.addEventListener('mouseleave',function(){cur.classList.remove('hot')});
+    });
+  }
+
+  /* ---------- magnetic buttons ---------- */
+  if(fine && !reduce){
+    $$('[data-magnet]').forEach(function(b){
+      b.addEventListener('mousemove',function(e){
+        var r=b.getBoundingClientRect();
+        b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.25)+'px,'+((e.clientY-r.top-r.height/2)*.35)+'px)';
+      });
+      b.addEventListener('mouseleave',function(){b.style.transform=''});
+    });
+  }
+
+  /* ---------- nav: hide on scroll down, solidify ---------- */
+  var nav=$('#nav'), last=0;
+  addEventListener('scroll',function(){
+    var y=scrollY;
+    nav.classList.toggle('solid', y>40);
+    nav.classList.toggle('hidden', y>last && y>400);
+    last=y;
+    $('#progress').style.width=(y/(document.body.scrollHeight-innerHeight)*100)+'%';
+  },{passive:true});
+
+  /* burger */
+  var burger=$('#burger'), links=$('#navLinks');
+  burger.addEventListener('click',function(){
+    var o=links.classList.toggle('open'); burger.classList.toggle('open',o); burger.setAttribute('aria-expanded',o);
+  });
+  $$('a',links).forEach(function(a){a.addEventListener('click',function(){links.classList.remove('open');burger.classList.remove('open');});});
+
+  /* ---------- reveals ---------- */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -7% 0px'});
+  $$('.rv').forEach(function(el){io.observe(el)});
+
+  /* ---------- counters ---------- */
+  var cio=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting)return; cio.unobserve(e.target);
+    var el=e.target, target=+el.dataset.count, t0=null, dur=reduce?0:1600;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var eased=1-Math.pow(1-p,3);
+      el.textContent=Math.round(target*eased); if(p<1)requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  });},{threshold:.5});
+  $$('[data-count]').forEach(function(el){cio.observe(el)});
+
+  /* ---------- configurator: color ---------- */
+  var finishName=$('#finishName');
+  $$('#swatches .swatch').forEach(function(sw){
+    sw.addEventListener('click',function(){
+      $$('#swatches .swatch').forEach(function(s){s.classList.remove('active')});
+      sw.classList.add('active');
+      document.documentElement.style.setProperty('--car', sw.dataset.color);
+      finishName.textContent=sw.dataset.name;
+    });
+  });
+
+  /* ---------- drive modes ---------- */
+  var MODES={
+    strada:{accent:'#ffd60a',label:'Strada',power:'1015 CV',zero:'2.5 s',char:'Refined'},
+    sport :{accent:'#ff6a00',label:'Sport', power:'1015 CV',zero:'2.4 s',char:'Playful'},
+    corsa :{accent:'#ff2417',label:'Corsa', power:'1015 CV',zero:'2.3 s',char:'Savage'}
+  };
+  function setMode(m){
+    var d=MODES[m]; if(!d)return;
+    document.body.dataset.mode=m;
+    document.documentElement.style.setProperty('--accent', d.accent);
+    $('#specMode').textContent=d.label; $('#specPower').textContent=d.power;
+    $('#specZero').textContent=d.zero; $('#specChar').textContent=d.char;
+    $$('#modeTabs button').forEach(function(b){b.classList.toggle('active', b.dataset.mode===m);});
+  }
+  $$('#modeTabs button').forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.mode)});});
+
+  /* ---------- duplicate marquee for seamless loop if needed ---------- */
+  $('#yr').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
