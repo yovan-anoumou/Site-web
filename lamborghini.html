@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>APEX — Automobili Lamborghini · Concept Demo</title>
+<title>APEX — Lamborghini Aventador SVJ · Concept Demo</title>
 <meta name="description" content="APEX — an immersive concept showcase for Automobili Lamborghini. Configure the bull, feel the telemetry, beyond every limit." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,7 +24,7 @@
     --rosso:#ff2417;
 
     --accent:var(--giallo);  /* driven by drive-mode */
-    --car:#ffd60a;           /* driven by configurator */
+    --car:#33ccc6;           /* Blu Glauco — driven by configurator */
 
     --display:'Archivo Expanded','Archivo',sans-serif;
     --sans:'Archivo',system-ui,sans-serif;
@@ -235,7 +235,7 @@
   .model:hover .arrow svg{color:#0a0a0a}
   .model .arrow svg{width:15px;height:15px;color:var(--ink);transition:color .4s}
   .m1{grid-column:span 7}.m2{grid-column:span 5}.m3{grid-column:span 5}.m4{grid-column:span 7}
-  .g-revuelto{background:radial-gradient(90% 90% at 75% 15%,#3a2d00,#0c0d0f 70%)}
+  .g-aventador{background:radial-gradient(90% 90% at 75% 15%,#06403e,#0c0d0f 70%)}
   .g-temerario{background:radial-gradient(90% 90% at 20% 20%,#3a1500,#0c0d0f 70%)}
   .g-urus{background:radial-gradient(90% 90% at 80% 80%,#001a2e,#0c0d0f 70%)}
   .g-huracan{background:radial-gradient(90% 90% at 30% 20%,#2e0008,#0c0d0f 70%)}
@@ -347,64 +347,76 @@
     </g>
 
     <!-- ground shadow -->
-    <ellipse cx="500" cy="420" rx="430" ry="22" fill="#000" opacity=".55"/>
+    <ellipse cx="500" cy="420" rx="440" ry="22" fill="#000" opacity=".55"/>
 
-    <!-- main body (painted) -->
-    <path d="M28 360 L120 318 L235 300 L360 250 L470 214 L585 210 L660 250 L820 252 L905 246 L958 300 L956 356 L905 372 L60 372 Z"
-          fill="var(--car)"/>
-    <!-- top highlight facet -->
-    <path d="M235 300 L360 250 L470 214 L585 210 L660 250 L560 262 L400 268 Z" fill="#fff" opacity=".14"/>
-    <!-- lower carbon rocker -->
-    <path d="M150 332 L860 320 L905 372 L60 372 Z" fill="#0c0d0f" opacity=".92"/>
-    <!-- nose shadow facet -->
-    <path d="M28 360 L120 318 L150 332 L60 372 Z" fill="#000" opacity=".30"/>
-    <!-- rear haunch facet -->
-    <path d="M820 252 L905 246 L958 300 L956 356 L905 372 L860 320 Z" fill="#000" opacity=".20"/>
+    <!-- REAR WING (SVJ swan-neck) -->
+    <path d="M814 244 l14 -2 l0 -44 l-12 0 Z" fill="#0c0d0f"/>
+    <path d="M922 240 l14 -2 l0 -50 l-12 0 Z" fill="#0c0d0f"/>
+    <path d="M800 206 L968 188 L968 200 L800 218 Z" fill="#101216"/>
+    <path d="M800 206 L968 188" stroke="var(--accent)" stroke-width="2" fill="none" opacity=".8"/>
+    <path d="M965 186 l9 2 l0 28 l-9 -2 Z" fill="#0c0d0f"/>
+
+    <!-- main body (painted, Aventador wedge) -->
+    <path d="M26 366 L110 320 L210 306 L300 286 L392 236 L468 206 L560 206 L628 232 L792 240 L900 236 L956 286 L956 352 L905 372 L60 372 Z" fill="var(--car)"/>
+    <!-- top sheen -->
+    <path d="M210 306 L300 286 L392 236 L468 206 L560 206 L628 232 L560 244 L380 250 L262 268 Z" fill="#fff" opacity=".15"/>
+    <!-- engine deck shade -->
+    <path d="M628 232 L792 240 L900 236 L956 286 L956 352 L905 372 L760 332 L640 302 Z" fill="#000" opacity=".18"/>
+    <!-- carbon side skirt / lower band -->
+    <path d="M150 336 L300 322 L640 318 L880 330 L905 372 L60 372 Z" fill="#0c0d0f" opacity=".95"/>
+    <!-- nose shade -->
+    <path d="M26 366 L110 320 L150 336 L60 372 Z" fill="#000" opacity=".28"/>
+    <!-- front splitter + canard (carbon) -->
+    <path d="M26 366 L112 354 L140 360 L60 372 Z" fill="#0b0c0e"/>
+    <path d="M120 348 l56 -4 l-7 9 l-51 2 Z" fill="#17191c"/>
 
     <!-- greenhouse / glass -->
-    <path d="M380 250 L470 214 L585 210 L660 250 L560 256 L440 258 Z" fill="url(#glass)"/>
-    <!-- A-pillar highlight -->
-    <path d="M470 214 L478 215 L398 252 L388 250 Z" fill="var(--accent)" opacity=".5"/>
+    <path d="M392 236 L468 206 L560 206 L628 232 L560 242 L440 244 Z" fill="url(#glass)"/>
+    <path d="M468 206 L477 207 L398 240 L388 238 Z" fill="#0a0a0a"/>
+    <path d="M560 206 L628 232 L612 236 L556 214 Z" fill="#0a0a0a" opacity=".55"/>
 
-    <!-- character blade line -->
-    <path d="M170 314 L900 300" stroke="var(--accent)" stroke-width="2.5" opacity=".85" fill="none"/>
+    <!-- character blade line + crease -->
+    <path d="M165 318 L880 304" stroke="var(--accent)" stroke-width="2.4" opacity=".85" fill="none"/>
+    <path d="M300 288 L470 282" stroke="#fff" stroke-width="1.4" opacity=".18" fill="none"/>
 
-    <!-- side hexagon intake (signature) -->
-    <path d="M690 300 l26 -10 l26 10 l0 22 l-26 10 l-26 -10 Z" fill="#0a0a0a" stroke="var(--accent)" stroke-width="2"/>
-    <!-- front Y-light signature -->
-    <path d="M95 318 l24 -8 M119 310 l0 14 M119 310 l20 -6" stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- side fender intake (signature scoop) -->
+    <path d="M636 250 L712 262 L726 300 L700 312 L640 300 Z" fill="#0a0a0a" stroke="var(--accent)" stroke-width="2"/>
+    <path d="M652 268 l46 7 M650 282 l54 6 M652 296 l42 4" stroke="#2a2c30" stroke-width="3" fill="none"/>
+
+    <!-- front Y-headlight signature -->
+    <path d="M92 320 l26 -9 M118 311 l0 16 M118 311 l22 -7" stroke="var(--accent)" stroke-width="3.4" fill="none" stroke-linecap="round"/>
     <!-- tail light bar -->
-    <path d="M918 300 L950 306 L950 318 L918 322 Z" fill="var(--rosso)" opacity=".9"/>
+    <path d="M905 296 L950 302 L950 314 L905 318 Z" fill="#e11d1d" opacity=".92"/>
+    <!-- high-mount hex exhaust -->
+    <path d="M905 330 l16 -6 l16 6 l-16 6 Z" fill="#1a1c1f" stroke="#3a3c40" stroke-width="1.5"/>
+    <!-- diffuser fins -->
+    <g stroke="#26282c" stroke-width="3"><path d="M905 356 l0 14"/><path d="M922 356 l0 14"/><path d="M939 356 l0 14"/><path d="M952 356 l0 12"/></g>
 
-    <!-- front wheel -->
+    <!-- front wheel (Dianthus Y-spoke, red caliper) -->
     <g>
-      <circle cx="250" cy="345" r="66" fill="#0a0a0b"/>
-      <circle cx="250" cy="345" r="44" fill="url(#rim)"/>
+      <circle cx="248" cy="348" r="64" fill="#0a0a0b"/>
+      <circle cx="248" cy="348" r="43" fill="url(#rim)"/>
       <g class="spin">
-        <g fill="#0a0a0b">
-          <path d="M250 345 L256 308 L244 308 Z"/><path d="M250 345 L285 322 L279 333 Z"/>
-          <path d="M250 345 L288 357 L282 367 Z"/><path d="M250 345 L262 380 L250 384 Z"/>
-          <path d="M250 345 L222 378 L235 382 Z"/><path d="M250 345 L213 357 L216 368 Z"/>
-          <path d="M250 345 L214 332 L220 322 Z"/>
+        <g stroke="#0a0a0b" stroke-width="6" stroke-linecap="round">
+          <path d="M248 348 L248 309"/><path d="M248 348 L282 328"/><path d="M248 348 L282 368"/>
+          <path d="M248 348 L248 387"/><path d="M248 348 L214 368"/><path d="M248 348 L214 328"/>
         </g>
-        <circle cx="250" cy="345" r="9" fill="#caa84b"/>
+        <circle cx="248" cy="348" r="8" fill="#c9ccd2"/>
       </g>
-      <path d="M236 318 a44 44 0 0 1 28 0" stroke="var(--accent)" stroke-width="4" fill="none" opacity=".9"/>
+      <rect x="221" y="356" width="12" height="20" rx="4" fill="#e11d1d"/>
     </g>
     <!-- rear wheel -->
     <g>
-      <circle cx="752" cy="345" r="66" fill="#0a0a0b"/>
-      <circle cx="752" cy="345" r="44" fill="url(#rim)"/>
+      <circle cx="752" cy="348" r="64" fill="#0a0a0b"/>
+      <circle cx="752" cy="348" r="43" fill="url(#rim)"/>
       <g class="spin" style="animation-delay:-.2s">
-        <g fill="#0a0a0b">
-          <path d="M752 345 L758 308 L746 308 Z"/><path d="M752 345 L787 322 L781 333 Z"/>
-          <path d="M752 345 L790 357 L784 367 Z"/><path d="M752 345 L764 380 L752 384 Z"/>
-          <path d="M752 345 L724 378 L737 382 Z"/><path d="M752 345 L715 357 L718 368 Z"/>
-          <path d="M752 345 L716 332 L722 322 Z"/>
+        <g stroke="#0a0a0b" stroke-width="6" stroke-linecap="round">
+          <path d="M752 348 L752 309"/><path d="M752 348 L786 328"/><path d="M752 348 L786 368"/>
+          <path d="M752 348 L752 387"/><path d="M752 348 L718 368"/><path d="M752 348 L718 328"/>
         </g>
-        <circle cx="752" cy="345" r="9" fill="#caa84b"/>
+        <circle cx="752" cy="348" r="8" fill="#c9ccd2"/>
       </g>
-      <path d="M738 318 a44 44 0 0 1 28 0" stroke="var(--accent)" stroke-width="4" fill="none" opacity=".9"/>
+      <rect x="725" y="356" width="12" height="20" rx="4" fill="#e11d1d"/>
     </g>
   </svg>
 </template>
@@ -432,11 +444,11 @@
 
 <!-- ===== hero ===== -->
 <section class="hero" id="top">
-  <div class="ghost" aria-hidden="true">LAMBORGHINI</div>
+  <div class="ghost" aria-hidden="true">AVENTADOR</div>
   <div class="wrap hero-grid">
-    <span class="kicker rv">Sant'Agata Bolognese · Since 1963</span>
+    <span class="kicker rv">Aventador SVJ · Sant'Agata Bolognese</span>
     <h1 class="rv d1"><span class="out">Unleash</span> the<br><span class="fill">Raging Bull</span></h1>
-    <p class="hero-sub rv d2">A naturally aggressive silhouette, electrified by a 6.5L V12 hybrid heart. Built in CSS &amp; SVG, theme it, drive it, configure it.</p>
+    <p class="hero-sub rv d2">A razor wedge wrapped around a 6.5L naturally aspirated V12 and ALA active aero. Hand-built in CSS &amp; SVG — theme it, drive it, configure it.</p>
     <div class="hero-cta rv d2">
       <a href="#configure" class="btn solid" data-magnet>Configure yours
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -446,10 +458,10 @@
     <div class="stage rv d3" id="heroStage" aria-hidden="true"></div>
 
     <div class="hud rv d3">
-      <div class="cell"><div class="v">1015<small>CV</small></div><div class="l">System Power</div></div>
-      <div class="cell"><div class="v">2.5<small>S</small></div><div class="l">0 – 100 km/h</div></div>
+      <div class="cell"><div class="v">770<small>CV</small></div><div class="l">Max Power</div></div>
+      <div class="cell"><div class="v">2.8<small>S</small></div><div class="l">0 – 100 km/h</div></div>
       <div class="cell"><div class="v">350<small>KM/H</small></div><div class="l">Top Speed</div></div>
-      <div class="cell"><div class="v">9000<small>RPM</small></div><div class="l">V12 Redline</div></div>
+      <div class="cell"><div class="v">8500<small>RPM</small></div><div class="l">V12 Redline</div></div>
     </div>
   </div>
   <div class="scrollcue" aria-hidden="true"><span>Scroll</span><span class="bar"></span></div>
@@ -458,8 +470,8 @@
 <!-- ===== marquee ===== -->
 <div class="marquee" aria-hidden="true">
   <div class="mq-track" id="mqTrack">
-    <span>Revuelto · Temerario · Urus SE · Huracán STO · Beyond Every Limit</span>
-    <span>Revuelto · Temerario · Urus SE · Huracán STO · Beyond Every Limit</span>
+    <span>Aventador SVJ · Revuelto · Urus SE · Huracán STO · Beyond Every Limit</span>
+    <span>Aventador SVJ · Revuelto · Urus SE · Huracán STO · Beyond Every Limit</span>
   </div>
 </div>
 
@@ -487,11 +499,12 @@
           <button data-mode="corsa">Corsa</button>
         </div>
 
-        <span class="spec-name" id="finishName">Giallo Orion</span>
-        <h3 id="modelName">APEX V12</h3>
+        <span class="spec-name" id="finishName">Blu Glauco</span>
+        <h3 id="modelName">Aventador SVJ</h3>
 
         <div class="swatches" id="swatches" role="group" aria-label="Body finish">
-          <button class="swatch active" data-color="#ffd60a" data-name="Giallo Orion" style="background:#ffd60a" aria-label="Giallo Orion"></button>
+          <button class="swatch active" data-color="#33ccc6" data-name="Blu Glauco" style="background:#33ccc6" aria-label="Blu Glauco"></button>
+          <button class="swatch" data-color="#ffd60a" data-name="Giallo Orion" style="background:#ffd60a" aria-label="Giallo Orion"></button>
           <button class="swatch" data-color="#ff6a00" data-name="Arancio Xanto" style="background:#ff6a00" aria-label="Arancio Xanto"></button>
           <button class="swatch" data-color="#11c26d" data-name="Verde Mantis" style="background:#11c26d" aria-label="Verde Mantis"></button>
           <button class="swatch" data-color="#1b6cf2" data-name="Blu Eleos" style="background:#1b6cf2" aria-label="Blu Eleos"></button>
@@ -502,9 +515,9 @@
 
         <ul class="spec-list">
           <li><span>Drive mode</span><span class="acctxt" id="specMode">Strada</span></li>
-          <li><span>Power unit</span><span>6.5L V12 + 3× e-motor</span></li>
-          <li><span>Output</span><span id="specPower">1015 CV</span></li>
-          <li><span>0–100 km/h</span><span id="specZero">2.5 s</span></li>
+          <li><span>Power unit</span><span>6.5L V12 · naturally aspirated</span></li>
+          <li><span>Output</span><span id="specPower">770 CV</span></li>
+          <li><span>0–100 km/h</span><span id="specZero">2.8 s</span></li>
           <li><span>Character</span><span id="specChar">Refined</span></li>
         </ul>
         <a href="#reserve" class="btn solid" data-magnet style="margin-top:24px">Reserve this build
@@ -519,11 +532,11 @@
   <div class="wrap">
     <div class="head">
       <div><span class="idx rv">// 02 — Telemetry</span><h2 class="rv d1">Numbers that<br>bite back.</h2></div>
-      <p class="lead rv d2">Figures inspired by the Revuelto flagship. Counters spin up the moment they enter your viewport.</p>
+      <p class="lead rv d2">Figures from the Aventador SVJ — the last naturally aspirated V12 flagship. Counters spin up the moment they enter your viewport.</p>
     </div>
     <div class="stat-grid">
-      <div class="stat rv"><div class="num"><span data-count="1015">0</span><span class="u">CV</span></div><div class="cap">System Power</div></div>
-      <div class="stat rv d1"><div class="num"><span data-count="725">0</span><span class="u">NM</span></div><div class="cap">Peak Torque</div></div>
+      <div class="stat rv"><div class="num"><span data-count="770">0</span><span class="u">CV</span></div><div class="cap">Max Power</div></div>
+      <div class="stat rv d1"><div class="num"><span data-count="720">0</span><span class="u">NM</span></div><div class="cap">Peak Torque</div></div>
       <div class="stat rv d2"><div class="num"><span data-count="350">0</span><span class="u">KM/H</span></div><div class="cap">Top Speed</div></div>
       <div class="stat rv d3"><div class="num"><span data-count="63">0</span><span class="u">YRS</span></div><div class="cap">Of Obsession</div></div>
     </div>
@@ -539,9 +552,9 @@
     </div>
     <div class="lineup-grid">
       <a href="#configure" class="model m1 rv">
-        <div class="mglow g-revuelto"></div>
-        <span class="tag">Flagship · HPEV</span>
-        <h3>Revuelto</h3><p>6.5 V12 · 1015 CV · 350 km/h</p>
+        <div class="mglow g-aventador"></div>
+        <span class="tag">Flagship · V12 · ALA</span>
+        <h3>Aventador SVJ</h3><p>6.5 V12 NA · 770 CV · 350 km/h</p>
         <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </a>
       <a href="#configure" class="model m2 rv d1">
@@ -706,9 +719,9 @@
 
   /* ---------- drive modes ---------- */
   var MODES={
-    strada:{accent:'#ffd60a',label:'Strada',power:'1015 CV',zero:'2.5 s',char:'Refined'},
-    sport :{accent:'#ff6a00',label:'Sport', power:'1015 CV',zero:'2.4 s',char:'Playful'},
-    corsa :{accent:'#ff2417',label:'Corsa', power:'1015 CV',zero:'2.3 s',char:'Savage'}
+    strada:{accent:'#ffd60a',label:'Strada',power:'770 CV',zero:'2.8 s',char:'Refined'},
+    sport :{accent:'#ff6a00',label:'Sport', power:'770 CV',zero:'2.7 s',char:'Playful'},
+    corsa :{accent:'#ff2417',label:'Corsa', power:'770 CV',zero:'2.6 s',char:'Savage'}
   };
   function setMode(m){
     var d=MODES[m]; if(!d)return;
